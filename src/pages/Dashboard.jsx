@@ -4,9 +4,6 @@ import cardRectangle from "../assets/Images/card_rectangle.svg";
 import Card from "../components/Card";
 
 function Dashboard() {
-  
-  
-  
   return (
     <div className="bg-blue-50">
       <Header />
@@ -46,7 +43,9 @@ function Dashboard() {
           </div>
         </div>
         <div className="flex flex-col items-start">
-          <p className="text-[2rem] font-semibold">Recently Added Interview Experiences</p>
+          <p className="text-[2rem] font-semibold">
+            Recently Added Interview Experiences
+          </p>
           <div className="grid grid-cols-4 gap-5 mt-5">
             <Card />
             <Card />
