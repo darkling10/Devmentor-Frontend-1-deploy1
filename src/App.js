@@ -6,20 +6,25 @@ import {
   Route
 } from 'react-router-dom';
 import routes from './config/Routes';
-import { AuthProvider } from "./context/AuthContext";
+import { useAuthState } from "./context/AuthContext";
+import { redirect } from "react-router-dom";
+import Login from './pages/Login';
+import AppRoute from './config/AppRoute';
+import Dashboard from './pages/Dashboard';
 function App() {
+  const {token} = useAuthState();
+ 
   return (
-   <AuthProvider>
+
      <Router>
       <Routes>
-      {
-        routes.map((ele)=>{
-          return <Route path={ele.path} key={ele.path} element={ele.element}></Route>
-        })
-      }
+       <Route path='/' element={<Login />} ></Route>
+       <Route path='/dashboard' element = {<AppRoute>
+        <Dashboard/>
+         </AppRoute> }></Route>
       </Routes>
     </Router>
-   </AuthProvider>
+ 
   );
 }
  

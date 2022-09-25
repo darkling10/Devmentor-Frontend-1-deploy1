@@ -1,9 +1,9 @@
 import React, { useReducer } from "react";
- 
+
 const AuthStateContext = React.createContext();
 const AuthDispatchContext = React.createContext();
 
-
+ 
 export function useAuthState() {
     const context = React.useContext(AuthStateContext);
     if (context === undefined) {
@@ -27,8 +27,8 @@ export function useAuthState() {
 let user = localStorage.getItem("currentUser")
   ? JSON.parse(localStorage.getItem("currentUser")).user
   : "";
-let token = localStorage.getItem("currentUser")
-  ? JSON.parse(localStorage.getItem("currentUser")).auth_token
+let token = localStorage.getItem("token")
+  ? localStorage.getItem('token')
   : "";
 
 
@@ -44,7 +44,7 @@ let token = localStorage.getItem("currentUser")
           return {
             ...initialState,
             user: action.payload.user,
-            token: action.payload.auth_token,
+            token: action.payload.token,
             loading: false
           };
         case "LOGOUT":
@@ -66,8 +66,8 @@ let token = localStorage.getItem("currentUser")
         }
   }
   export const initialState = {
-    userDetails: "" || user,
-    token: "" || token,
+    userDetails:user ? user  : null,
+    token:token ? token  : null,
     loading: false,
     errorMessage: null
   };
