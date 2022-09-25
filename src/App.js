@@ -5,23 +5,28 @@ import {
   Routes,
   Route
 } from 'react-router-dom';
-import routes from './config/Routes';
-import { useAuthState } from "./context/AuthContext";
-import { redirect } from "react-router-dom";
 import Login from './pages/Login';
 import AppRoute from './config/AppRoute';
 import Dashboard from './pages/Dashboard';
+import AdminDashBoard from './pages/AdminDashBoard';
+import AdminRoute from './config/AdminRoute';
 function App() {
-  const {token} = useAuthState();
  
   return (
 
      <Router>
       <Routes>
        <Route path='/' element={<Login />} ></Route>
+
        <Route path='/dashboard' element = {<AppRoute>
         <Dashboard/>
          </AppRoute> }></Route>
+       
+
+         <Route path='/admindashboard' element = {<AppRoute>
+        <AdminDashBoard />
+         </AppRoute> }></Route>
+
       </Routes>
     </Router>
  

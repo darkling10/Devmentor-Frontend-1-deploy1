@@ -65,7 +65,13 @@ function Login() {
               alert('Invalid Credentials')
               console.log('error')
             }else{
-              navigate('/dashboard')
+               console.log(response)
+               const {user} = response;
+               if(user.userType === 'admin'){
+                return navigate('/admindashboard')
+               }else{
+                navigate('/dashboard')                
+               }
             }
           } catch (error) {
             console.log(error,'error')

@@ -1,4 +1,3 @@
-
 const ROOT_URL = 'https://dev-mentor1.herokuapp.com';
 export async function loginUser(dispatch, loginPayload) {
   const requestOptions = {
@@ -29,7 +28,9 @@ export async function loginUser(dispatch, loginPayload) {
 }
  
 export async function logout(dispatch) {
+  
   dispatch({ type: 'LOGOUT' });
   localStorage.removeItem('currentUser');
   localStorage.removeItem('token');
+  
 }
