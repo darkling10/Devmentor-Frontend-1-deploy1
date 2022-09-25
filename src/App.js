@@ -9,7 +9,6 @@ import Login from './pages/Login';
 import AppRoute from './config/AppRoute';
 import Dashboard from './pages/Dashboard';
 import AdminDashBoard from './pages/AdminDashBoard';
-import AdminRoute from './config/AdminRoute';
 function App() {
  
   return (
