@@ -2,7 +2,7 @@ import React from 'react'
 import { useAuthState } from '../context/AuthContext'
 import {Navigate} from 'react-router-dom'
 
-function AppRoute({children}) {
+function AdminRoute({children}) {
     const user = useAuthState()
     
     if(!Boolean(user.token) && user.userDetails.userType!=="admin"){
@@ -11,4 +11,4 @@ function AppRoute({children}) {
     return children;
 }
 
-export default AppRoute
+export default AdminRoute
