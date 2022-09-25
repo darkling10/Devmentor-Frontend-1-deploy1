@@ -66,7 +66,7 @@ let token = localStorage.getItem("token")
         }
   }
   export const initialState = {
-    userDetails:user ? user  : null,
+    user:user ? user  : null,
     token:token ? token  : null,
     loading: false,
     errorMessage: null

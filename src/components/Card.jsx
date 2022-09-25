@@ -1,18 +1,20 @@
-import cardRectangle from "../assets/Images/card_rectangle.svg";
+import {Link} from 'react-router-dom'
 
 const Card = () => {
   return (
-    <div className="bg-white rounded-xl h-[25rem] w-96 flex flex-col items-center justify-evenly mx-10">
-      
-        <img src={cardRectangle} alt="" className="w-[21rem]"/>
-      
-      <p className="mx-5">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Egestas
-        dignissim enim cum proin gravida ultricies odio et. Id porta sed non,
-      </p>
-      <div className=" px-5 py-2 bg-blue-600 w-auto text-xl rounded-xl text-white  mx-10">
-        View Detailed Review
-      </div>
+    <div className="bg-white rounded-xl w-full p-2.5 flex flex-col items-center justify-evenly ">
+    <div className="bg-img min-h-[20vh] w-full rounded-md pb-10 ">
+     <div className="bg-black/10 flex  px-5 rounded-md justify-center items-center backdrop-blur-md w-full py-5">
+     <img alt="python" className="w-8 " src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" />
+     <h1 className="font-semibold text-md text-white mx-5">Zero To Mastery Python Bootcamp</h1>
+    </div>          
+    </div>
+    <p className="text-sm my-2.5 text-black/50">
+      Lorem ipsum dolor, sit amet consectetur adipisicing elit. Incidunt culpa aliquid esse quidem obcaecati dolorum eos nulla debitis molestiae porro.
+    </p>
+    <Link to={'/courses/1'} className="w-full">
+    <button className="bg-primary rounded-md w-full p-2.5 text-white hover:bg-dark-primary">View Detailed Review</button>
+    </Link>
     </div>
   );
 };
