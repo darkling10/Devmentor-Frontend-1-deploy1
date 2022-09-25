@@ -6,15 +6,19 @@ import SignUp from '../pages/SignUp'
 const routes = [
     {
         path:'/',
-        element: <Login/>
+        element: <Login/>,
+        isPrivate:false,
       },
       {
         path:'/dashboard',
-        element: <Dashboard />
+        element: <Dashboard />,
+        isPrivate:true,
+
       },
       {
         path:'/signup',
-        element: <SignUp/>
+        element: <SignUp/>,
+        isPrivate:true
       }
 ]
 

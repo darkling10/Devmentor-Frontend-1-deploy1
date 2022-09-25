@@ -1,26 +1,28 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, {  useState } from 'react'
+import { Link , } from 'react-router-dom'
 import { Formik } from "formik";
 import * as Yup from "yup";
-import { useAuthDispatch , useAuthState } from '../context/AuthContext';
- 
+import { useAuthDispatch } from '../context/AuthContext';
+import { loginUser } from '../context/Actions';
+import {useNavigate } from 'react-router-dom'
 
+import ErrorPopup from '../component/ErrorPopup';
 function Login() {
+  const navigate = useNavigate()
   const schema = Yup.object().shape({
     email: Yup.string()
       .required("Email is a required field")
       .email("Invalid email format"),
     password: Yup.string()
       .required("Password is a required field")
-      .min(8, "Password must be at least 8 characters"),
+      .min(5, "Password must be at least 8 characters"),
   });
 
-  const dispatch = useAuthDispatch() 
-
-  
+  const dispatch = useAuthDispatch()
+ 
   return (
     <div className='w-full min-h-screen md:grid-cols-1 grid grid-cols-2'>
-
+    
       <div className="col text-white  bg-primary flex justify-between items-start flex-col p-10 w-full min-h-screen">
     
       <div className="flex justify-start items-center">
@@ -54,8 +56,20 @@ function Login() {
         <Formik
         validationSchema={schema}
         initialValues={{ email: "", password: "" }}
-        onSubmit={(values) => {
-          console.log(JSON.stringify(values))
+        onSubmit={async(values) => {
+          let payload = {email:values.email , password:values.password};
+          try {
+            let response = await loginUser(dispatch, payload) //loginUser action makes the request and handles all the neccessary state changes
+            console.log(response); 
+            if(response.errors){
+              alert('Invalid Credentials')
+              console.log('error')
+            }else{
+              navigate('/dashboard')
+            }
+          } catch (error) {
+            console.log(error,'error')
+          }
         }}
       >
         {({
@@ -67,6 +81,9 @@ function Login() {
           handleSubmit,
         }) => (
           <div className="login">
+
+            
+
             <div className="form">
            {/* Passing handleSubmit parameter tohtml form onSubmit property */}
               <form noValidate onSubmit={handleSubmit}>

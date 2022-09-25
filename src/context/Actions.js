@@ -1,10 +1,31 @@
-const ROOT_URL = 'https://secret-hamlet-03431.herokuapp.com';
 
-
-
+const ROOT_URL = 'https://dev-mentor1.herokuapp.com';
 export async function loginUser(dispatch, loginPayload) {
-  console.log("We are in login User")
+  const requestOptions = {
+    method: 'POST',
+    mode:"cors",
+    headers: { 'Content-Type': 'application/json'   , "Access-Control-Allow-Origin":"*"},
+    body: JSON.stringify(loginPayload),
+  };
+
+ try {
+  dispatch({ type: 'REQUEST_LOGIN' });
+  let response = await fetch(`${ROOT_URL}/user/login`, requestOptions);
+  let data = await response.json();
   
+  if(data){
+    dispatch({ type: 'LOGIN_SUCCESS', payload: data })
+    localStorage.setItem('currentUser', JSON.stringify(data));
+    localStorage.setItem('token',data.token)
+    return data; 
+  }
+
+  dispatch({ type: 'LOGIN_ERROR', error: data.errors[0] });
+  return;
+
+} catch (error) {
+  dispatch({ type: 'LOGIN_ERROR', error: error });
+}
 }
  
 export async function logout(dispatch) {
@@ -12,4 +33,3 @@ export async function logout(dispatch) {
   localStorage.removeItem('currentUser');
   localStorage.removeItem('token');
 }
-
