@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react'
 import PublicReview from '../components/PublicReview'
 import {useParams} from 'react-router-dom'
 import { ROOT_URL } from '../context/Actions';
-import Loading from '../component/Loading';
+import Progress from '../components/Progress';
+
 function CourseDetail() {
   const {id} = useParams();
   const [callVal, setcallVal] = useState(true);
@@ -25,11 +26,11 @@ function CourseDetail() {
       if(likes ===  0  && dislike === 0){
         setHideBar(false)
       }
-
       setstats({
         likePercentage , dislikePercentage
       })
     }
+    console.log("changed")
     getCourse()
    }, [id,callVal]);
 
@@ -106,19 +107,7 @@ function CourseDetail() {
         </h1>
      { 
     
-    HideBar && Course && stats ? <div className="section">
-    <div className="w-full bg-red-500 h-4 my-5 rounded-md">
-          <div className={`w-[${stats?.likePercentage.toFixed()}%] transition-all bg-green-500 rounded-md h-4`}></div>
-    </div>
-
-    <div className="flex w-full justify-between">
-     <h1  className='font-semibold '>Yes - <span className='text-black/50'>{stats?.likePercentage.toFixed(2)} % </span></h1>
-   
-     <h1  className='font-semibold '>No - <span className='text-black/50'>{stats?.dislikePercentage.toFixed(2)} % </span></h1>
-
-    </div>
-
-    </div>: <p className='w-full text-center font-semibold'> Not Enough Data </p> 
+    HideBar && Course && stats ? <Progress done={stats?.likePercentage}  />: <p className='w-full text-center font-semibold'> Not Enough Data </p> 
      
      }
 
