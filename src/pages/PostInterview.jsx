@@ -5,19 +5,19 @@ import { Link } from "react-router-dom";
 import { ROOT_URL } from "../context/Actions";
 import { useAuthState } from "../context/AuthContext";
 
-export const PostCourses = () => {
+export const PostInterview = () => {
   const { token } = useAuthState();
   console.log(token);
 
   const validationSchema = yup.object({
-    company: yup.string().min(10, "Title Must Be Greater Than 5 Characters"),
+    company: yup.string(),
     role: yup.string(),
     companyLogo: yup.string(),
     date: yup.string(),
-    onCampus: yup.string(),
+    onCampus: yup.bool(),
     location: yup.string(),
     ctc: yup.number(),
-    selected: yup.string(),
+    selected: yup.bool(),
     description: yup.string(),
     process: yup.string(),
   });
@@ -25,12 +25,12 @@ export const PostCourses = () => {
   const initialValues = {
     company: "",
     role: "",
-    companyLogo: "Web",
+    companyLogo: "",
     date: "",
-    onCampus: "C++",
+    onCampus: true,
     location: "",
-    ctc: "",
-    selected: "",
+    ctc: 0,
+    selected: true,
     description: "",
     process: "",
   };
@@ -42,17 +42,16 @@ export const PostCourses = () => {
         validationSchema={validationSchema}
         onSubmit={async (values) => {
           const payload = {
-            title: values.title,
-            author: values.author,
-            category: values.category,
-            linkToCourse: values.linkToCourse,
-            language: values.language,
-            userType: "admin",
-            platform: values.platform,
-            price: values.price,
+            company: values.company,
+            role: values.role,
+            companyLogo: values.companyLogo,
+            date: values.date,
+            onCampus: values.onCampus,
+            location: values.location,
+            ctc: values.ctc,
+            selected: values.selected,
             description: values.description,
-            pros: values.pros.split(","),
-            cons: values.cons.split(","),
+            process: values.process,
           };
 
           const requestOptions = {
@@ -66,86 +65,99 @@ export const PostCourses = () => {
             body: JSON.stringify(payload),
           };
 
-          const res = await fetch(`${ROOT_URL}/admin/course`, requestOptions);
+          const res = await fetch(`${ROOT_URL}/user/interview`, requestOptions);
           console.log(res);
         }}
       >
         <Form className="flex flex-col justify-evenly h-full mx-20 sm:mx-5  items-center">
-          <p className="text-2xl font-semibold my-2 ">Display New Course</p>
+          <p className="text-2xl font-semibold my-2 mt-5 ">
+            Post Interview Exprience
+          </p>
           <div className="w-full my-3">
-            <p className="text-2xl font-semibold my-2 ">Title</p>
+            <p className="text-2xl font-semibold my-2 ">Company</p>
             <Field
-              name="title"
+              name="company"
               type="text"
               className="border rounded px-3 py-2 w-full"
               as="input"
             />
           </div>
           <div className="w-full my-3">
-            <p className="text-2xl font-semibold my-2 ">Author</p>
+            <p className="text-2xl font-semibold my-2 ">Role</p>
             <Field
-              name="author"
+              name="role"
               type="text"
               className="border rounded px-3 py-2 w-full"
               as="input"
             />
           </div>
           <div className="w-full my-3">
-            <p className="text-2xl font-semibold my-2 ">Category</p>
+            <p className="text-2xl font-semibold my-2 ">
+              Company Logo{" "}
+              <span className="text-sm text-slate-400 ">(Enter Logo URL)</span>
+            </p>
             <Field
               name="category"
               type="text"
               className="border rounded px-3 py-2 w-full"
+              as="input"
+            />
+          </div>
+          <div className="w-full my-3">
+            <p className="text-2xl font-semibold my-2 ">
+              Date{" "}
+              <span className="text-sm text-slate-400 ">
+                (Enter in DD/MM/YYYY Format)
+              </span>{" "}
+            </p>
+            <Field
+              name="date"
+              type="text"
+              className="border rounded px-3 py-2 w-full"
+              as="input"
+            />
+          </div>
+          <div className="w-full my-3">
+            <p className="text-2xl font-semibold my-2 ">Job Location</p>
+            <Field
+              name="onCampus"
+              type="text"
+              className="border rounded px-3 py-2 w-full"
               as="select"
             >
-            <option value="Web" >Web</option>
-              <option value="Android" >Android</option>
-              <option value="AI" >AI</option>
-              <option value="Data" >Data</option>
-              <option value="Language" >Language</option>
+              <option value={true}>On Campus</option>
+              <option value={false}>Off Campus</option>
             </Field>
           </div>
           <div className="w-full my-3">
-            <p className="text-2xl font-semibold my-2 ">Link to Course </p>
+            <p className="text-2xl font-semibold my-2 ">Company Location</p>
             <Field
-              name="linkToCourse"
+              name="location"
               type="text"
               className="border rounded px-3 py-2 w-full"
               as="input"
             />
           </div>
           <div className="w-full my-3">
-            <p className="text-2xl font-semibold my-2 ">Language </p>
+            <p className="text-2xl font-semibold my-2 ">CTC</p>
             <Field
-              name="language"
+              name="ctc"
+              type="number"
+              className="border rounded px-3 py-2 w-full"
+              as="input"
+            />
+          </div>
+          <div className="w-full my-3">
+            <p className="text-2xl font-semibold my-2 ">Were you Selected?</p>
+            <Field
+              name="selected"
               type="text"
               className="border rounded px-3 py-2 w-full"
               as="select"
             >
-              <option value="C++">C++</option>
-              <option value="Java">Java</option>
-              <option value="JavaScript">JavaScript</option>
-              <option value="Python">Python</option>
-              <option value="Go">Go</option>
+              <option value={true}>Yes</option>
+              <option value={false}>No</option>
             </Field>
-          </div>
-          <div className="w-full my-3">
-            <p className="text-2xl font-semibold my-2 ">Platform</p>
-            <Field
-              name="platform"
-              type="text"
-              className="border rounded px-3 py-2 w-full"
-              as="input"
-            />
-          </div>
-          <div className="w-full my-3">
-            <p className="text-2xl font-semibold my-2 ">Price</p>
-            <Field
-              name="price"
-              type="text"
-              className="border rounded px-3 py-2 w-full"
-              as="input"
-            />
           </div>
           <div className="w-full my-3">
             <p className="text-2xl font-semibold my-2 ">Description</p>
@@ -157,28 +169,9 @@ export const PostCourses = () => {
             />
           </div>
           <div className="w-full my-3">
-            <p className="text-2xl font-semibold my-2 ">
-              Pros{" "}
-              <span className="text-sm text-slate-400 ">
-                (Enter Comma , Seperated Values)
-              </span>{" "}
-            </p>
+            <p className="text-2xl font-semibold my-2 ">Process</p>
             <Field
-              name="pros"
-              type="text"
-              className="border rounded px-3 py-2 w-full"
-              as="textarea"
-            />
-          </div>
-          <div className="w-full my-3">
-            <p className="text-2xl font-semibold my-2 ">
-              Cons{" "}
-              <span className="text-sm text-slate-400 ">
-                (Enter Comma , Seperated Values)
-              </span>{" "}
-            </p>
-            <Field
-              name="cons"
+              name="process"
               type="text"
               className="border rounded px-3 py-2 w-full"
               as="textarea"

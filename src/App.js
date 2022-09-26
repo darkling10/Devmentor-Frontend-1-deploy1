@@ -9,13 +9,14 @@ import CourseContext from "./context/CourseContext";
 import CourseDetail from "./pages/CourseDetail";
 import Courses from "./pages/Courses";
 import { PostCourses } from "./pages/PostCourses";
+import { PostInterview } from "./pages/PostInterview";
 function App() {
   return (
     <CourseContext>
       <Router>
         <Routes>
-          <Route path="/" element={<Login />}></Route>
-          <Route path="/signup" element={<SignUp />}></Route>
+          <Route path="/" element={<Login />}/>
+          <Route path="/signup" element={<SignUp />} />
 
           <Route
             path="/dashboard"
@@ -24,8 +25,7 @@ function App() {
                 <Dashboard />
               </AppRoute>
             }
-          ></Route>
-
+          />
           <Route
             path="/admindashboard"
             element={
@@ -33,7 +33,7 @@ function App() {
                 <AdminDashBoard />
               </AppRoute>
             }
-          ></Route>
+          />
 
           <Route
             path="/courses"
@@ -42,12 +42,24 @@ function App() {
                 <Courses />
               </AppRoute>
             }
-          ></Route>
+          />
+          <Route
+            path="/courses/post"
+            element={
+              <AppRoute>
+                <PostCourses/>
+              </AppRoute>
+            }
+          />
+          <Route
+            path="/interview/post"
+            element={
+              <AppRoute>
+                <PostInterview/>
+              </AppRoute>
+            }
+          />
 
-            <Route 
-            path="/hello"
-            element = {<PostCourses/>}
-              />
           <Route
             path="courses/:id"
             element={

@@ -122,11 +122,11 @@ export const PostCourses = () => {
               className="border rounded px-3 py-2 w-full"
               as="select"
             >
-              <option value="C++">C++</option>
-              <option value="Java">Java</option>
-              <option value="JavaScript">JavaScript</option>
-              <option value="Python">Python</option>
-              <option value="Go">Go</option>
+              <option value="cplusplus">C++</option>
+              <option value="java">Java</option>
+              <option value="javascript">JavaScript</option>
+              <option value="python">Python</option>
+              <option value="go">Go</option>
             </Field>
           </div>
           <div className="w-full my-3">
