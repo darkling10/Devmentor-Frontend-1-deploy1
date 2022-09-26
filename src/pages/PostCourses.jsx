@@ -10,16 +10,16 @@ export const PostCourses = () => {
   console.log(token);
 
   const validationSchema = yup.object({
-    title: yup.string().min(10, "Title Must Be Greater Than 5 Characters"),
-    author: yup.string(),
-    category: yup.string(),
-    linkToCourse: yup.string(),
-    language: yup.string(),
-    platform: yup.string(),
-    price: yup.number(),
-    description: yup.string(),
-    pros: yup.string(),
-    cons: yup.string(),
+    title: yup.string().min(10, "Title Must Be Greater Than 5 Characters").required("This Field Cannot Be Empty"),
+    author: yup.string().required("This Field Cannot Be Empty"),
+    category: yup.string().required("This Field Cannot Be Empty"),
+    linkToCourse: yup.string().required("This Field Cannot Be Empty"),
+    language: yup.string().required("This Field Cannot Be Empty"),
+    platform: yup.string().required("This Field Cannot Be Empty"),
+    price: yup.number().required("This Field Cannot Be Empty"),
+    description: yup.string().required("This Field Cannot Be Empty"),
+    pros: yup.string().required("This Field Cannot Be Empty"),
+    cons: yup.string().required("This Field Cannot Be Empty"),
   });
 
   const initialValues = {
@@ -36,7 +36,7 @@ export const PostCourses = () => {
   };
 
   return (
-    <div className=" w-screen">
+    <div className=" w-screen bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
@@ -70,39 +70,50 @@ export const PostCourses = () => {
           console.log(res);
         }}
       >
-        <Form className="flex flex-col justify-evenly h-full mx-20 sm:mx-5  items-center">
-          <p className="text-2xl font-semibold my-2 ">Display New Course</p>
+        {({errors,touched}) =>(
+          <Form className="flex flex-col justify-evenly h-full mx-20 sm:mx-10 text-white  items-center">
+          <p className="text-[3rem] font-semibold my-2 mt-10  ">Display New Course</p>
           <div className="w-full my-3">
             <p className="text-2xl font-semibold my-2 ">Title</p>
             <Field
               name="title"
               type="text"
-              className="border rounded px-3 py-2 w-full"
+              className="border rounded px-3 py-3 bg-blue-50 text-lg w-full text-black"
               as="input"
             />
+            {errors.company && touched.company ? (
+                <div className="text-error text-center text-xl font-semibold">
+                  {errors.company}
+                </div>
+              ) : null}
           </div>
           <div className="w-full my-3">
             <p className="text-2xl font-semibold my-2 ">Author</p>
             <Field
               name="author"
               type="text"
-              className="border rounded px-3 py-2 w-full"
+              className="border rounded px-3 py-3 bg-blue-50 text-lg w-full text-black"
               as="input"
             />
+            {errors.company && touched.company ? (
+                <div className="text-error text-center text-xl font-semibold">
+                  {errors.company}
+                </div>
+              ) : null}
           </div>
           <div className="w-full my-3">
             <p className="text-2xl font-semibold my-2 ">Category</p>
             <Field
               name="category"
               type="text"
-              className="border rounded px-3 py-2 w-full"
+              className="border rounded px-3 py-3 bg-blue-50 text-lg w-full text-black"
               as="select"
             >
-            <option value="Web" >Web</option>
-              <option value="Android" >Android</option>
-              <option value="AI" >AI</option>
-              <option value="Data" >Data</option>
-              <option value="Language" >Language</option>
+              <option value="Web">Web</option>
+              <option value="Android">Android</option>
+              <option value="AI">AI</option>
+              <option value="Data">Data</option>
+              <option value="Language">Language</option>
             </Field>
           </div>
           <div className="w-full my-3">
@@ -110,16 +121,21 @@ export const PostCourses = () => {
             <Field
               name="linkToCourse"
               type="text"
-              className="border rounded px-3 py-2 w-full"
+              className="border rounded px-3 py-3 bg-blue-50 text-lg w-full text-black"
               as="input"
             />
+            {errors.company && touched.company ? (
+                <div className="text-error text-center text-xl font-semibold">
+                  {errors.company}
+                </div>
+              ) : null}
           </div>
           <div className="w-full my-3">
             <p className="text-2xl font-semibold my-2 ">Language </p>
             <Field
               name="language"
               type="text"
-              className="border rounded px-3 py-2 w-full"
+              className="border rounded px-3 py-3 bg-blue-50 text-lg w-full text-black"
               as="select"
             >
               <option value="cplusplus">C++</option>
@@ -134,27 +150,42 @@ export const PostCourses = () => {
             <Field
               name="platform"
               type="text"
-              className="border rounded px-3 py-2 w-full"
+              className="border rounded px-3 py-3 bg-blue-50 text-lg w-full text-black"
               as="input"
             />
+            {errors.company && touched.company ? (
+                <div className="text-error text-center text-xl font-semibold">
+                  {errors.company}
+                </div>
+              ) : null}
           </div>
           <div className="w-full my-3">
             <p className="text-2xl font-semibold my-2 ">Price</p>
             <Field
               name="price"
               type="text"
-              className="border rounded px-3 py-2 w-full"
+              className="border rounded px-3 py-3 bg-blue-50 text-lg w-full text-black"
               as="input"
             />
+            {errors.company && touched.company ? (
+                <div className="text-error text-center text-xl font-semibold">
+                  {errors.company}
+                </div>
+              ) : null}
           </div>
           <div className="w-full my-3">
             <p className="text-2xl font-semibold my-2 ">Description</p>
             <Field
               name="description"
               type="text"
-              className="border rounded px-3 py-2 w-full"
+              className="border rounded px-3 py-3 bg-blue-50 text-lg w-full text-black"
               as="textarea"
             />
+            {errors.company && touched.company ? (
+                <div className="text-error text-center text-xl font-semibold">
+                  {errors.company}
+                </div>
+              ) : null}
           </div>
           <div className="w-full my-3">
             <p className="text-2xl font-semibold my-2 ">
@@ -166,9 +197,14 @@ export const PostCourses = () => {
             <Field
               name="pros"
               type="text"
-              className="border rounded px-3 py-2 w-full"
+              className="border rounded px-3 py-3 bg-blue-50 text-lg w-full text-black"
               as="textarea"
             />
+            {errors.company && touched.company ? (
+                <div className="text-error text-center text-xl font-semibold">
+                  {errors.company}
+                </div>
+              ) : null}
           </div>
           <div className="w-full my-3">
             <p className="text-2xl font-semibold my-2 ">
@@ -180,9 +216,14 @@ export const PostCourses = () => {
             <Field
               name="cons"
               type="text"
-              className="border rounded px-3 py-2 w-full"
+              className="border rounded px-3 py-3 bg-blue-50 text-lg w-full text-black"
               as="textarea"
             />
+            {errors.company && touched.company ? (
+                <div className="text-error text-center text-xl font-semibold">
+                  {errors.company}
+                </div>
+              ) : null}
           </div>
           <button
             type="submit"
@@ -191,6 +232,7 @@ export const PostCourses = () => {
             Submit
           </button>
         </Form>
+        )}
       </Formik>
     </div>
   );
