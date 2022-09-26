@@ -4,10 +4,10 @@ import {Navigate} from 'react-router-dom'
 
 function AdminRoute({children}) {
     const user = useAuthState()
-    
-    if(!Boolean(user.token) && user.userDetails.userType!=="admin"){
-       return <Navigate  to={'/'}></Navigate>
+    if(user.user.userType!=="admin"){
+        return <Navigate to="/" ></Navigate>
     }
+   
     return children;
 }
 

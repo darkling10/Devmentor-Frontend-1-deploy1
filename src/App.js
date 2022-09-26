@@ -10,6 +10,8 @@ import CourseDetail from "./pages/CourseDetail";
 import Courses from "./pages/Courses";
 import { PostCourses } from "./pages/PostCourses";
 import { PostInterview } from "./pages/PostInterview";
+import AdminRoute from './config/AdminRoute'
+import InterviewExp from "./pages/InterviewExp";
 function App() {
   return (
     <CourseContext>
@@ -44,11 +46,11 @@ function App() {
             }
           />
           <Route
-            path="/courses/post"
+            path="/postcourse"
             element={
-              <AppRoute>
+              <AdminRoute>
                 <PostCourses/>
-              </AppRoute>
+              </AdminRoute>
             }
           />
           <Route
@@ -65,6 +67,15 @@ function App() {
             element={
               <AppRoute>
                 <CourseDetail />
+              </AppRoute>
+            }
+          />
+
+          <Route
+            path="Interview_experiences"
+            element={
+              <AppRoute>
+                <InterviewExp />
               </AppRoute>
             }
           />
