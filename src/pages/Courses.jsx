@@ -1,7 +1,8 @@
 import React, { useEffect , useState } from 'react'
 import Card from '../components/Card';
+import CustomLoading from '../components/CustomLoading';
 import FilterComponent from '../components/FilterComponent'
-import Loading from '../components/Loading';
+import img from './Noresult.png'
 import { useCourseContext } from '../context/CourseContext'
 function Courses() {
 
@@ -17,7 +18,8 @@ function Courses() {
 
   return (
     <div className='w-full min-h-screen pb-10 bg-blue-50'>
-   
+    
+    {loading ? <CustomLoading msg={"Requesting Courses"} /> : null}
     <div className="bg-img w-full  p-10 ">
          <div className="w-[75%] min-h-[40vh] text-white mx-auto grid grid-cols-[5fr_7fr]">
             <div className="col w-full h-full flex justify-start items-center">
@@ -43,9 +45,17 @@ function Courses() {
     {
       courses?courses.map((ele)=>{
        return <Card data={ele} />
-      }):<Loading />
+      }):null
     }
+  
    </div>
+   {
+      courses?.length === 0 ?
+     ( <div className="mx-auto w-full flex flex-col justify-center items-center">
+        <img src={img}  alt="" />
+        <h1 className='font-semibold'>No Results Found</h1>
+      </div>) : null
+    }
     </div>
   )
 }

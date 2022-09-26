@@ -2,12 +2,13 @@ import React, { useEffect, useState } from 'react'
 import PublicReview from '../components/PublicReview'
 import {useParams} from 'react-router-dom'
 import { ROOT_URL } from '../context/Actions';
+import Loading from '../component/Loading';
 function CourseDetail() {
   const {id} = useParams();
-
+  const [callVal, setcallVal] = useState(true);
   const [Course, setCourse] = useState(null);
   const [stats, setstats] = useState(null);
-  const [HideBar, setHideBar] = useState(false);
+  const [HideBar, setHideBar] = useState(true);
   useEffect(() => {
     async function getCourse(){
       const data = await fetch(`${ROOT_URL}/user/coursebyid?id=${id}`).then((ele)=>{
@@ -21,7 +22,7 @@ function CourseDetail() {
       
       const likePercentage = (likes/(likes+dislike))*100;
       const dislikePercentage = (dislike/(likes+dislike))*100;
-      if(likes ===0  || dislike === 0){
+      if(likes ===  0  && dislike === 0){
         setHideBar(false)
       }
 
@@ -30,10 +31,11 @@ function CourseDetail() {
       })
     }
     getCourse()
-   }, [id]);
+   }, [id,callVal]);
 
   return (
     <div className='w-full bg-blue-50 '>
+    
        <div className="bg-img w-full p-10 min-h-[30vh] flex justify-center items-center">
 
         <h1 className='font-bold text-white text-4xl sm:text-2xl'>{Course?.title}</h1>
@@ -104,7 +106,7 @@ function CourseDetail() {
         </h1>
      { 
     
-    HideBar? <div className="section">
+    HideBar && Course && stats ? <div className="section">
     <div className="w-full bg-red-500 h-4 my-5 rounded-md">
           <div className={`w-[${stats?.likePercentage.toFixed()}%] transition-all bg-green-500 rounded-md h-4`}></div>
     </div>
@@ -119,8 +121,13 @@ function CourseDetail() {
     </div>: <p className='w-full text-center font-semibold'> Not Enough Data </p> 
      
      }
-       <PublicReview comments={Course?.Comments} id={Course?._id} />
+
+     
+       <PublicReview call={callVal} setcall={setcallVal} comments={Course?.Comments} id={Course?._id} />
        
+
+      
+
        </div>
       </div>
     </div>

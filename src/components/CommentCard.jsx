@@ -9,7 +9,7 @@ function CommentCard({data}) {
    </div>
   
    <div className="text py-5 px-2">
-    <h1 className='text-[16px] font-semibold'>{data.name?data.name:"JohnDoe"}</h1>
+    <h1 className='text-[16px] capitalize font-semibold'>{data.name?data.name:"JohnDoe"}</h1>
     <p className='text-[14px] text-black/50'>{data?.Comment.slice(0,120)}</p>
    </div>
     </div>

@@ -4,8 +4,8 @@ import * as yup from "yup";
 import { ROOT_URL } from '../context/Actions';
 import { useAuthState } from '../context/AuthContext';
 
-function CommentForm({id}) {
-    const {token} = useAuthState()
+function CommentForm({id , call ,setcall}) {
+    const {token,user} = useAuthState()
     const schema = yup.object().shape({
         comment: yup.string().min(100).required().max(120),
       });
@@ -16,7 +16,7 @@ function CommentForm({id}) {
     <div className="flex justify-start items-center ">
         <img className='w-16 h-16 rounded-full' src="https://cdna.artstation.com/p/assets/images/images/034/457/398/large/shin-min-jeong-.jpg?1612345160" alt="" />
         <div className="text p-5">
-            <h1 className='font-semibold'>Vinit Khollam</h1>
+            <h1 className='font-semibold capitalize'>{user?.name}</h1>
         </div>
 
        
@@ -47,6 +47,8 @@ function CommentForm({id}) {
           requestOptions
           )
           resetForm({values:""})
+          setcall(!call)
+          
           alert("Comment Posted Successfully !!!")
           
 
@@ -62,7 +64,7 @@ function CommentForm({id}) {
         }) => (
           
             <form noValidate onSubmit={handleSubmit}>
-            <p>Enter Your Email ID</p>
+            <p className='my-3'>Enter Your Comment</p>
             <textarea
              name="comment"
              onChange={handleChange}
