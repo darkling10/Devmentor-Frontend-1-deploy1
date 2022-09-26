@@ -1,7 +1,7 @@
 import React from 'react'
 
 function CommentCard({data}) {
-  console.log(data)
+
   return (
     <div className='w-full min-h-[10vh] h-[max-content] bg-white  rounded-xl  grid grid-cols-[4fr_8fr]'>
    <div className="profile px-2 flex justify-center items-center py-5">

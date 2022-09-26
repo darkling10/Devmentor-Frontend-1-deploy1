@@ -15,7 +15,7 @@ function CourseDetail() {
       const data = await fetch(`${ROOT_URL}/user/coursebyid?id=${id}`).then((ele)=>{
         return ele.json();
       })
-      console.log(data)
+    
       setCourse(data)
 
       const likes = data.likes;
@@ -23,7 +23,8 @@ function CourseDetail() {
       
       const likePercentage = (likes/(likes+dislike))*100;
       const dislikePercentage = (dislike/(likes+dislike))*100;
-      if(likes ===  0  && dislike === 0){
+      console.log(likePercentage,dislikePercentage)
+      if(likes ===  0  || dislike === 0 || isNaN(likePercentage) || isNaN(dislikePercentage) ){
         setHideBar(false)
       }
       setstats({
