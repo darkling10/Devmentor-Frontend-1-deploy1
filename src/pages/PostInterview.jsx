@@ -59,8 +59,8 @@ export const PostInterview = () => {
 
         <div className="text">
           <h1 className="text-3xl font-bold">
-            {" "}
-            Learn About New Courses and Interview Experiences{" "}
+ 
+            Learn About New Courses and Interview Experiences
           </h1>
           <p className="text-white/70 my-5">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates
@@ -124,20 +124,12 @@ export const PostInterview = () => {
           showToastMessage(msg)
           resetForm({values:""})
           
-          // if(res.errors){
-          //     alert('Invalid Credentials')
-          //     console.log('error')
-          //   }else{
-               
-          //       navigate('/dashboard')                
-               
-          //   }
         }}
       >
         {({ errors, touched }) => (
           <Form className="flex flex-col justify-evenly h-full mx-20 items-center ">
             <p className="text-[2rem] font-semibold my-2 mt-10 ">
-              Post Interview Exprience
+              Post Interview Experience
             </p>
             <div className="w-full my-3">
               <p className="text-xl font-semibold my-2 ">Company</p>
@@ -297,9 +289,9 @@ export const PostInterview = () => {
             </div>
             <button
               type="submit"
-              className=" px-5 bg-blue-600 text-xl py-2 my-5 rounded-xl text-white font-semibold w-96"
+              className=" px-5 bg-blue-600 text-xl py-2 my-5 rounded-xl text-white w-full"
             >
-              Submit
+              Share Experience
             </button>
           </Form>
         )}

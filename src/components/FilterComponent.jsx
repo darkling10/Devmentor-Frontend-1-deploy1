@@ -6,7 +6,7 @@ import { useCourseContext } from '../context/CourseContext';
 
 function FilterComponent({setCourses,setLoading}) {
   const categories = ["Web", "Android", "AI", "Data", "Language"]
-  const languages  = ["cplusplus", "java", "javascript", "python", "go"]
+  const languages  = [ "java", "javascript", "python", "go"]
   const data = useCourseContext();
   const ResetDefault = ()=>{
     setLoading(true)

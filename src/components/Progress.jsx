@@ -14,7 +14,7 @@ const Progress = ({done}) => {
 	return (
 		<div className="progress w-full">
 			<div className="progress-done" style={style}>
-				{done}% 
+				{done.toFixed(1)}% 
 			</div>
 		</div>
 	)
