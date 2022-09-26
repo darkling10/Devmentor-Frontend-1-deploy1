@@ -7,11 +7,7 @@ import { useAuthState } from "../context/AuthContext";
 
 export const PostInterview = () => {
   const { token } = useAuthState();
-  const navigate = useNavigate()
-  
-  
-
-
+  const navigate = useNavigate();
 
   const validationSchema = yup.object({
     company: yup.string().required("This Field Cannot Be Empty"),
@@ -22,10 +18,10 @@ export const PostInterview = () => {
     location: yup.string().required("This Field Cannot Be Empty"),
     ctc: yup.number().required("This Field Cannot Be Empty"),
     selected: yup.bool().required("Please Select A Value"),
-    description: yup
-      .string()
-      .min(100, "Description Must Be Greater Than 100 Characters")
-      .required("This Field Cannot Be Empty"),
+    platformUsed: yup.string().required("This Field Cannot Be Empty"),
+    subjectLearned: yup.string().required("This Field Cannot Be Empty"),
+    courses: yup.string().required("This Field Cannot Be Empty"),
+    aptitudePrep: yup.string().required("This Field Cannot Be Empty"),
     process: yup
       .string()
       .min(100, "Process Must Be Greater Than 100 Characters")
@@ -34,14 +30,17 @@ export const PostInterview = () => {
 
   const initialValues = {
     company: "",
-    role: "",
+    role: "SDE Intern",
     companyLogo: "",
     date: "",
     onCampus: true,
     location: "",
     ctc: 0,
     selected: true,
-    description: "",
+    platformUsed: "",
+    subjectLearned: "",
+    courses: "",
+    aptitudePrep: "",
     process: "",
   };
 
@@ -96,7 +95,12 @@ export const PostInterview = () => {
             location: values.location,
             ctc: values.ctc,
             selected: values.selected,
-            description: values.description,
+            description: {
+              platformUsed: values.platformUsed,
+              subjectLearned: values.subjectLearned,
+              courses: values.courses,
+              aptitudePrep: values.aptitudePrep,
+            },
             process: values.process,
           };
 
@@ -117,9 +121,9 @@ export const PostInterview = () => {
           //     alert('Invalid Credentials')
           //     console.log('error')
           //   }else{
-               
-          //       navigate('/dashboard')                
-               
+
+          //       navigate('/dashboard')
+
           //   }
         }}
       >
@@ -148,8 +152,17 @@ export const PostInterview = () => {
                 name="role"
                 type="text"
                 className="border rounded px-3 py-3 bg-blue-50 text-lg w-full text-black "
-                as="input"
-              />
+                as="select"
+              >
+                <option value="SDE Intern">SDE Intern</option>
+                <option value="SDE-1">SDE-1</option>
+                <option value="SDE-2">SDE-2</option>
+                <option value="FrontEnd Developer">FrontEnd Developer</option>
+                <option value="BackEnd Developer">BackEnd Developer</option>
+                <option value="FullStack Developer">FullStack Developer</option>
+                <option value="DevOps Engineer">DevOps Engineer</option>
+                <option value="Other">Other</option>
+              </Field>
               {errors.role && touched.role ? (
                 <div className="text-error text-center text-xl font-semibold">
                   {errors.role}
@@ -159,7 +172,7 @@ export const PostInterview = () => {
             <div className="w-full my-3">
               <p className="text-2xl font-semibold my-2 ">
                 Company Logo{" "}
-                <span className="text-sm text-slate-100 ">
+                <span className="text-sm text-slate-400 ">
                   (Enter Logo URL)
                 </span>
               </p>
@@ -178,7 +191,7 @@ export const PostInterview = () => {
             <div className="w-full my-3">
               <p className="text-2xl font-semibold my-2 ">
                 Date{" "}
-                <span className="text-sm text-slate-100 ">
+                <span className="text-sm text-slate-400 ">
                   (Enter in DD/MM/YYYY Format)
                 </span>{" "}
               </p>
@@ -256,19 +269,68 @@ export const PostInterview = () => {
                 </div>
               ) : null}
             </div>
-            <div className="w-full my-3">
-              <p className="text-2xl font-semibold my-2 ">Job Description</p>
-              <Field
-                name="description"
-                type="text"
-                className="border rounded px-3 py-3 bg-blue-50 text-lg w-full text-black "
-                as="textarea"
-              />
-              {errors.description && touched.description ? (
-                <div className="text-error text-center text-xl font-semibold">
-                  {errors.description}
-                </div>
-              ) : null}
+            <div className="w-full my-3  p-5 bg-slate-200  rounded-lg">
+              <p className="text-2xl font-semibold my-2 mx-2  ">
+                Interview Description
+              </p>
+              <div>
+                <p className="text-2xl font-semibold my-3  mx-10 ">
+                  Platform Used
+                </p>
+                <Field
+                  name="platformUsed"
+                  type="text"
+                  className="border rounded px-3 py-3 bg-blue-50 text-lg w-full mx-10 text-black "
+                  as="input"
+                />
+                {errors.platformUsed && touched.platformUsed ? (
+                  <div className="text-error text-center text-xl font-semibold">
+                    {errors.platformUsed}
+                  </div>
+                ) : null}
+                <p className="text-2xl font-semibold my-3  mx-10 ">
+                  Subjects Learned
+                </p>
+                <Field
+                  name="subjectLearned"
+                  type="text"
+                  className="border rounded px-3 py-3 bg-blue-50 text-lg w-full mx-10 text-black "
+                  as="input"
+                />
+                {errors.subjectLearned && touched.subjectLearned ? (
+                  <div className="text-error text-center text-xl font-semibold">
+                    {errors.subjectLearned}
+                  </div>
+                ) : null}
+                <p className="text-2xl font-semibold my-3  mx-10 ">
+                  Courses Used
+                </p>
+                <Field
+                  name="courses"
+                  type="text"
+                  className="border rounded px-3 py-3 bg-blue-50 text-lg w-full mx-10 text-black "
+                  as="input"
+                />
+                {errors.courses && touched.courses ? (
+                  <div className="text-error text-center text-xl font-semibold">
+                    {errors.courses}
+                  </div>
+                ) : null}
+                <p className="text-2xl font-semibold my-3  mx-10 ">
+                  Aptitude Prep
+                </p>
+                <Field
+                  name="aptitudePrep"
+                  type="text"
+                  className="border rounded px-3 py-3 bg-blue-50 text-lg w-full mx-10 text-black "
+                  as="textarea"
+                />
+                {errors.aptitudePrep && touched.aptitudePrep ? (
+                  <div className="text-error text-center text-xl font-semibold">
+                    {errors.aptitudePrep}
+                  </div>
+                ) : null}
+              </div>
             </div>
             <div className="w-full my-3">
               <p className="text-2xl font-semibold my-2 ">Interview Process</p>

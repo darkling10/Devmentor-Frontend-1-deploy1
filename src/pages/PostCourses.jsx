@@ -102,7 +102,7 @@ export const PostCourses = () => {
               ) : null}
           </div>
           <div className="w-full my-3">
-            <p className="text-2xl font-semibold my-2 ">Category</p>
+            <p className="text-2xl font-semibold my-2 ">Domain</p>
             <Field
               name="category"
               type="text"
