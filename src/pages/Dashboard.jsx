@@ -4,6 +4,7 @@ import Card from '../components/Card'
 import { useCourseContext } from "../context/CourseContext";
 
 function Dashboard() {
+
   
   const data = useCourseContext();
   const [TopCourses, setTopCourses] = useState([]);
@@ -21,6 +22,7 @@ function Dashboard() {
   }, [data]);
   
   
+
   return (
     <div className="bg-blue-50 w-full min-h-screen">
       <Header />
