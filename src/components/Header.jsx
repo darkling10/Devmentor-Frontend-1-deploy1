@@ -19,7 +19,6 @@ const navigate = useNavigate()
         <Link to={'/Courses'} className='text-sm hover:text-black' >Courses</Link >
         <Link to={'/Interview_experiences'} className='text-sm hover:text-black' >Interview Experiences</Link >
         <Link to={'/YoutubeGuide'} className='text-sm hover:text-black' >Youtube Guide</Link >
-        <Link to={'/TechGuide'} className='text-sm hover:text-black' >Tech Guide</Link>
       </div>
       <div className="flex sm:hidden flex-row gap-3 items-center ">
         <img src={"https://cdna.artstation.com/p/assets/images/images/034/457/398/large/shin-min-jeong-.jpg?1612345160"} className="w-12 h-12 rounded-full" alt="" />
@@ -35,7 +34,9 @@ const navigate = useNavigate()
       <div className="text-black sm:block hidden">
        <i class='bx  text-xl bx-menu'></i>
        </div>
+
     </div>
+
  </div>
   );
 };
