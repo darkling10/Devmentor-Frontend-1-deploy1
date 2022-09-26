@@ -52,7 +52,7 @@ function App() {
             }
           />
           <Route
-            path="/interview/post"
+            path="/postinterviewexp"
             element={
               <AppRoute>
                 <PostInterview/>
