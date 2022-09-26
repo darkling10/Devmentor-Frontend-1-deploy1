@@ -1,11 +1,13 @@
 import React from 'react'
 import { Formik} from "formik";
 import * as yup from "yup";
+import { ROOT_URL } from '../context/Actions';
+import { useAuthState } from '../context/AuthContext';
 
-
-function CommentForm() {
+function CommentForm({id}) {
+    const {token} = useAuthState()
     const schema = yup.object().shape({
-        comment: yup.string().min(200).required(),
+        comment: yup.string().min(100).required().max(120),
       });
 
   return (
@@ -25,8 +27,29 @@ function CommentForm() {
      <Formik
         validationSchema={schema}
         initialValues={{ comment: ""}}
-        onSubmit={async(values) => {
+        onSubmit={async(values,{resetForm}) => {
           console.log(values)
+          const payload = {
+            id:id,
+            Comment : values.comment
+          } 
+          const requestOptions = {
+            method: 'PATCH',
+            mode:"cors",
+            headers: { 
+              'Content-Type': 'application/json' 
+              , "Access-Control-Allow-Origin":"*",
+              'x-access-token':  `Bearer ${token}`},
+            body: JSON.stringify(payload),
+          };
+        
+          fetch(`${ROOT_URL}/user/course`,
+          requestOptions
+          )
+          resetForm({values:""})
+          alert("Comment Posted Successfully !!!")
+          
+
         }}
       >
         {({

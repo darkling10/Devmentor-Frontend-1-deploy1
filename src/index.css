@@ -10,6 +10,7 @@
     width: 100%;
 }
 
+
 .lds-ripple {
     display: inline-block;
     position: relative;
@@ -63,3 +64,6 @@
     background-image: url('https://cdn.dribbble.com/users/2256359/screenshots/14883002/media/3af44828f4e88cccd094ab2521ef6b2d.jpg?compress=1&resize=400x300');
     background-size: cover;
   }
+
+
+  

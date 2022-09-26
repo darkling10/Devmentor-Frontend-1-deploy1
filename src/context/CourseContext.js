@@ -1,34 +1,37 @@
-import React, { useEffect } from 'react'
+import React, { useContext, useEffect , useState} from 'react'
 import { ROOT_URL } from './Actions';
 const CourseStateContext = React.createContext();
 
 function CourseContext({children}) {
-    // const [Courses, setCourses] = useState([]);
+    const [Courses, setCourses] = useState([]);
   useEffect(() => {
     async function getCourses(){
-        const token = localStorage.getItem('token')
-        const config = {
-            headers: {
-                 'Authentication': 'Bearer Token',
-                'x-access-token': `Bearer ${token}` }
-        };
-
-      const data = await   fetch(`${ROOT_URL}/admin/course`, config) 
-         console.log(data)
+      const data = await fetch(`${ROOT_URL}/user/course`).then((ele)=>{
+        return ele.json();
+      })
+ 
+      if(data?.data){
+        setCourses(data.data)
+      }
+      
     }
     getCourses()
-}, []);
+}, [setCourses]);
 
 
   return (
     <CourseStateContext.Provider
     value={{
-      // Courses
+      Courses
     }}
     >
     {children}
   </CourseStateContext.Provider>
   )
+}
+
+export function useCourseContext(){
+  return useContext(CourseStateContext)
 }
 
 export default CourseContext

@@ -1,12 +1,10 @@
 import React from 'react'
+import { Link } from 'react-router-dom';
 import { useAuthState } from '../context/AuthContext';
-
 
 
 export const Header = () => {
   const {user} = useAuthState()
- console.log(user,"auth state")
-  
   return (
  <div className='w-full bg-white'>
      <div className=" min-h-[10vh] py-5 w-[75%] mx-auto flex flex-row justify-between items-center text-slate-400 text-xl bg-white">
@@ -15,10 +13,10 @@ export const Header = () => {
         <span className="text-black font-semibold text-lg">Mentor</span>
       </div>
       <div className="flex sm:hidden cursor-pointer flex-row justify-evenly w-auto gap-10 px-15">
-        <p className='text-sm hover:text-black' >Courses</p >
-        <p className='text-sm hover:text-black' >Interview Experiences</p >
-        <p className='text-sm hover:text-black' >Youtube Guide</p >
-        <p className='text-sm hover:text-black' >Tech Guide</p>
+        <Link to={'/Courses'} className='text-sm hover:text-black' >Courses</Link >
+        <Link to={'/Interview_experiences'} className='text-sm hover:text-black' >Interview Experiences</Link >
+        <Link to={'/YoutubeGuide'} className='text-sm hover:text-black' >Youtube Guide</Link >
+        <Link to={'/TechGuide'} className='text-sm hover:text-black' >Tech Guide</Link>
       </div>
       <div className="flex sm:hidden flex-row gap-3 items-center ">
         <img src={"https://mir-s3-cdn-cf.behance.net/project_modules/2800_opt_1/06fbe298931623.5ee79b6a90221.jpg"} className="w-12 h-12 rounded-full" alt="" />
