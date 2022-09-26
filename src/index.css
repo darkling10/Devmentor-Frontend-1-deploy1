@@ -64,3 +64,30 @@
 
 
   
+  
+.progress {
+	background-color: #e3e1e1;
+	border-radius: 20px;
+	position: relative;
+	margin: 15px 0;
+	min-height: 20px;
+	width: 100%;
+}
+
+.progress-done {
+  background: #1f4037;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #99f2c8, #1f4037);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #99f2c8, #1f4037); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  
+	border-radius: 20px;
+	color: #fff;
+  padding: 4px;
+  font-weight: 500;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
+	width: 0;
+	opacity: 0; 
+	transition: 1s ease 0.3s;
+}

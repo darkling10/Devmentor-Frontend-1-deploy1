@@ -1,16 +1,20 @@
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Formik, Form, Field} from "formik";
 import React from "react";
 import * as yup from "yup";
-import { Link, useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 import { ROOT_URL } from "../context/Actions";
 import { useAuthState } from "../context/AuthContext";
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 export const PostInterview = () => {
   const { token } = useAuthState();
-  const navigate = useNavigate()
-  
-  
 
+  const showToastMessage = (msg) => {
+    
+    toast.success(msg, {
+        position: toast.POSITION.BOTTOM_RIGHT
+    });
+   };
 
 
   const validationSchema = yup.object({
@@ -24,7 +28,7 @@ export const PostInterview = () => {
     selected: yup.bool().required("Please Select A Value"),
     description: yup
       .string()
-      .min(100, "Description Must Be Greater Than 100 Characters")
+      .min(150, "Description Must Be Greater Than 150 Characters")
       .required("This Field Cannot Be Empty"),
     process: yup
       .string()
@@ -86,7 +90,8 @@ export const PostInterview = () => {
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
-        onSubmit={async (values) => {
+        onSubmit={async (values , {resetForm}) => {
+        
           const payload = {
             company: values.company,
             role: values.role,
@@ -99,7 +104,7 @@ export const PostInterview = () => {
             description: values.description,
             process: values.process,
           };
-
+          console.log(payload)
           const requestOptions = {
             method: "POST",
             mode: "cors",
@@ -111,8 +116,14 @@ export const PostInterview = () => {
             body: JSON.stringify(payload),
           };
 
-          const res = await fetch(`${ROOT_URL}/user/interview`, requestOptions);
+          const resp = await fetch(`${ROOT_URL}/user/interview`, requestOptions);
+           const res = await resp.json()
           console.log(res);
+          const msg = res?.message || ""
+          console.log(res.message)
+          showToastMessage(msg)
+          resetForm({values:""})
+          
           // if(res.errors){
           //     alert('Invalid Credentials')
           //     console.log('error')
@@ -125,11 +136,11 @@ export const PostInterview = () => {
       >
         {({ errors, touched }) => (
           <Form className="flex flex-col justify-evenly h-full mx-20 items-center ">
-            <p className="text-[3rem] font-semibold my-2 mt-10 ">
+            <p className="text-[2rem] font-semibold my-2 mt-10 ">
               Post Interview Exprience
             </p>
             <div className="w-full my-3">
-              <p className="text-2xl font-semibold my-2 ">Company</p>
+              <p className="text-xl font-semibold my-2 ">Company</p>
               <Field
                 name="company"
                 type="text"
@@ -137,13 +148,13 @@ export const PostInterview = () => {
                 as="input"
               />
               {errors.company && touched.company ? (
-                <div className="text-error text-center text-xl font-semibold">
+                <div className="text-red-500 text-center text-[16px] my-2">
                   {errors.company}
                 </div>
               ) : null}
             </div>
             <div className="w-full my-3">
-              <p className="text-2xl font-semibold my-2 ">Role</p>
+              <p className="text-xl font-semibold my-2 ">Role</p>
               <Field
                 name="role"
                 type="text"
@@ -151,15 +162,15 @@ export const PostInterview = () => {
                 as="input"
               />
               {errors.role && touched.role ? (
-                <div className="text-error text-center text-xl font-semibold">
+                <div className="text-red-500 text-center text-[16px] my-2">
                   {errors.role}
                 </div>
               ) : null}
             </div>
             <div className="w-full my-3">
-              <p className="text-2xl font-semibold my-2 ">
+              <p className="text-xl font-semibold my-2 ">
                 Company Logo{" "}
-                <span className="text-sm text-slate-100 ">
+                <span className="text-sm text-slate-400 ">
                   (Enter Logo URL)
                 </span>
               </p>
@@ -170,15 +181,15 @@ export const PostInterview = () => {
                 as="input"
               />
               {errors.companyLogo && touched.companyLogo ? (
-                <div className="text-error text-center text-xl font-semibold">
+                <div className="text-red-500 text-center text-[16px] my-2">
                   {errors.companyLogo}
                 </div>
               ) : null}
             </div>
             <div className="w-full my-3">
-              <p className="text-2xl font-semibold my-2 ">
+              <p className="text-xl font-semibold my-2 ">
                 Date{" "}
-                <span className="text-sm text-slate-100 ">
+                <span className="text-sm text-slate-400 ">
                   (Enter in DD/MM/YYYY Format)
                 </span>{" "}
               </p>
@@ -189,13 +200,13 @@ export const PostInterview = () => {
                 as="input"
               />
               {errors.date && touched.date ? (
-                <div className="text-error text-center text-xl font-semibold">
+                <div className="text-red-500 text-center text-[16px] my-2">
                   {errors.date}
                 </div>
               ) : null}
             </div>
             <div className="w-full my-3">
-              <p className="text-2xl font-semibold my-2 ">Job Location</p>
+              <p className="text-xl font-semibold my-2 ">Job Location</p>
               <Field
                 name="onCampus"
                 type="text"
@@ -206,13 +217,13 @@ export const PostInterview = () => {
                 <option value={false}>Off Campus</option>
               </Field>
               {errors.onCampus && touched.onCampus ? (
-                <div className="text-error text-center text-xl font-semibold">
+                <div className="text-red-500 text-center text-[16px] my-2">
                   {errors.onCampus}
                 </div>
               ) : null}
             </div>
             <div className="w-full my-3">
-              <p className="text-2xl font-semibold my-2 ">Company Location</p>
+              <p className="text-xl font-semibold my-2 ">Company Location</p>
               <Field
                 name="location"
                 type="text"
@@ -220,13 +231,13 @@ export const PostInterview = () => {
                 as="input"
               />
               {errors.location && touched.location ? (
-                <div className="text-error text-center text-xl font-semibold">
+                <div className="text-red-500 text-center text-[16px] my-2">
                   {errors.location}
                 </div>
               ) : null}
             </div>
             <div className="w-full my-3">
-              <p className="text-2xl font-semibold my-2 ">CTC</p>
+              <p className="text-xl font-semibold my-2 ">CTC</p>
               <Field
                 name="ctc"
                 type="number"
@@ -234,13 +245,13 @@ export const PostInterview = () => {
                 as="input"
               />
               {errors.ctc && touched.ctc ? (
-                <div className="text-error text-center text-xl font-semibold">
+                <div className="text-red-500 text-center text-[16px] my-2">
                   {errors.ctc}
                 </div>
               ) : null}
             </div>
             <div className="w-full my-3">
-              <p className="text-2xl font-semibold my-2 ">Were you Selected?</p>
+              <p className="text-xl font-semibold my-2 ">Were you Selected?</p>
               <Field
                 name="selected"
                 type="text"
@@ -251,13 +262,13 @@ export const PostInterview = () => {
                 <option value={false}>No</option>
               </Field>
               {errors.selected && touched.selected ? (
-                <div className="text-error text-center text-xl font-semibold">
+                <div className="text-red-500 text-center text-[16px] my-2">
                   {errors.selected}
                 </div>
               ) : null}
             </div>
             <div className="w-full my-3">
-              <p className="text-2xl font-semibold my-2 ">Job Description</p>
+              <p className="text-xl font-semibold my-2 ">Job Description</p>
               <Field
                 name="description"
                 type="text"
@@ -265,13 +276,13 @@ export const PostInterview = () => {
                 as="textarea"
               />
               {errors.description && touched.description ? (
-                <div className="text-error text-center text-xl font-semibold">
+                <div className="text-red-500 text-center text-[16px] my-2">
                   {errors.description}
                 </div>
               ) : null}
             </div>
             <div className="w-full my-3">
-              <p className="text-2xl font-semibold my-2 ">Interview Process</p>
+              <p className="text-xl font-semibold my-2 ">Interview Process</p>
               <Field
                 name="process"
                 type="text"
@@ -279,7 +290,7 @@ export const PostInterview = () => {
                 as="textarea"
               />
               {errors.process && touched.process ? (
-                <div className="text-error text-center text-xl font-semibold">
+                <div className="text-red-500 text-center text-[16px] my-2">
                   {errors.process}
                 </div>
               ) : null}
@@ -293,6 +304,8 @@ export const PostInterview = () => {
           </Form>
         )}
       </Formik>
+      <ToastContainer />
+
     </div>
   );
 };

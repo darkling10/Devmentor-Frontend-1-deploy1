@@ -1,10 +1,13 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import CommentCard from './CommentCard'
 import CommentForm from './CommentForm'
 
 import Loading from '../component/Loading';
 
 function PublicReview({comments , id , call , setcall}) {
+  useEffect(()=>{
+    console.log("reload")
+  },[call])
   const [val, setval] = useState({
     like:false,
     dislike:false

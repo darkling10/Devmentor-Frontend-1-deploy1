@@ -6,8 +6,31 @@ import { useAuthDispatch , useAuthState} from '../context/AuthContext';
 import { loginUser } from '../context/Actions';
 import {useNavigate } from 'react-router-dom'
 import Loading from '../component/Loading';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Login() {
+
+  const showToastMessage = (msg , error=false) => {
+    if(error){
+      return toast.error(msg, {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        });
+    }else{
+     return toast.success(msg, {
+        position: toast.POSITION.BOTTOM_RIGHT
+    });
+    }
+    
+   };
+
+
   const navigate = useNavigate()
   const schema = Yup.object().shape({
     email: Yup.string()
@@ -65,10 +88,10 @@ function Login() {
             let response = await loginUser(dispatch, payload) //loginUser action makes the request and handles all the neccessary state changes
             console.log(response); 
             if(response.errors){
-              alert('Invalid Credentials')
-              console.log('error')
+              console.log(response.errors[0])
+              showToastMessage(response.errors[0].msg,true)
             }else{
-               console.log(response)
+              
                const {user} = response;
                if(user.userType === 'admin'){
                 return navigate('/admindashboard')
@@ -141,6 +164,7 @@ function Login() {
 
          </div>
       </div>
+      <ToastContainer/>
     </div>
   )
 }

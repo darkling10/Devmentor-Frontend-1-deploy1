@@ -72,7 +72,7 @@ function App() {
           />
 
           <Route
-            path="Interview_experiences"
+            path="/Interview_experiences"
             element={
               <AppRoute>
                 <InterviewExp />
