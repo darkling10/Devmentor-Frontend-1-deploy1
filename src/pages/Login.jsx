@@ -1,12 +1,12 @@
-import React, {  useState } from 'react'
+import React from 'react'
 import { Link , } from 'react-router-dom'
 import { Formik } from "formik";
 import * as Yup from "yup";
-import { useAuthDispatch } from '../context/AuthContext';
+import { useAuthDispatch , useAuthState} from '../context/AuthContext';
 import { loginUser } from '../context/Actions';
 import {useNavigate } from 'react-router-dom'
+import Loading from '../component/Loading';
 
-import ErrorPopup from '../component/ErrorPopup';
 function Login() {
   const navigate = useNavigate()
   const schema = Yup.object().shape({
@@ -19,10 +19,13 @@ function Login() {
   });
 
   const dispatch = useAuthDispatch()
- 
+  const {loading}= useAuthState();
+
   return (
     <div className='w-full min-h-screen md:grid-cols-1 grid grid-cols-2'>
-    
+      {
+        loading ? <Loading/> : null
+      }
       <div className="col text-white  bg-primary flex justify-between items-start flex-col p-10 w-full min-h-screen">
     
       <div className="flex justify-start items-center">
