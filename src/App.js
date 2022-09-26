@@ -8,6 +8,7 @@ import SignUp from "./pages/SignUp";
 import CourseContext from "./context/CourseContext";
 import CourseDetail from "./pages/CourseDetail";
 import Courses from "./pages/Courses";
+import { PostCourses } from "./pages/PostCourses";
 function App() {
   return (
     <CourseContext>
@@ -43,6 +44,10 @@ function App() {
             }
           ></Route>
 
+            <Route 
+            path="/hello"
+            element = {<PostCourses/>}
+              />
           <Route
             path="courses/:id"
             element={

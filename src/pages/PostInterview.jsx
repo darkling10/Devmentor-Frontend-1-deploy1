@@ -10,29 +10,29 @@ export const PostCourses = () => {
   console.log(token);
 
   const validationSchema = yup.object({
-    title: yup.string().min(10, "Title Must Be Greater Than 5 Characters"),
-    author: yup.string(),
-    category: yup.string(),
-    linkToCourse: yup.string(),
-    language: yup.string(),
-    platform: yup.string(),
-    price: yup.number(),
+    company: yup.string().min(10, "Title Must Be Greater Than 5 Characters"),
+    role: yup.string(),
+    companyLogo: yup.string(),
+    date: yup.string(),
+    onCampus: yup.string(),
+    location: yup.string(),
+    ctc: yup.number(),
+    selected: yup.string(),
     description: yup.string(),
-    pros: yup.string(),
-    cons: yup.string(),
+    process: yup.string(),
   });
 
   const initialValues = {
-    title: "",
-    author: "",
-    category: "Web",
-    linkToCourse: "",
-    language: "C++",
-    platform: "",
-    price: "",
+    company: "",
+    role: "",
+    companyLogo: "Web",
+    date: "",
+    onCampus: "C++",
+    location: "",
+    ctc: "",
+    selected: "",
     description: "",
-    pros: "",
-    cons: "",
+    process: "",
   };
 
   return (
