@@ -9,11 +9,12 @@ import CourseContext from "./context/CourseContext";
 import CourseDetail from "./pages/CourseDetail";
 import Courses from "./pages/Courses";
 import { PostCourses } from "./pages/PostCourses";
-import { PostInterview } from "./pages/PostInterview";
+
 import AdminRoute from './config/AdminRoute'
 import InterviewExp from "./pages/InterviewExp";
 import InterviewContext from "./context/InterviewContext";
 import InterviewDetail from "./components/InterviewDetail";
+import { PostInterview } from "./pages/PostInterview";
 function App() {
   return (
     <CourseContext>

@@ -10,7 +10,7 @@ function InterviewContext({children}) {
         const data = await fetch(`${ROOT_URL}/user/interview`).then((ele)=>{
             return ele.json();
           })
-     
+       
           if(data?.data){
             setInterviews(data.data)
           }
@@ -25,7 +25,7 @@ function InterviewContext({children}) {
   return (
     <InterviewStateContext.Provider
     value={
-      Interviews
+      Interviews 
    }
     >
     {children}

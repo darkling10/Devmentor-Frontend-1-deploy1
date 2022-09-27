@@ -8,14 +8,12 @@ const Card = ({data}) => {
      <div className="bg-black/10 flex  px-5 rounded-md justify-start items-center backdrop-blur-md w-full py-5">
      <img alt={`${data.language.toLowerCase()}`}className="w-8 " src={`https://cdn.jsdelivr.net/gh/devicons/devicon/icons/${data.language.toLowerCase()}/${data.language.toLowerCase()}-original.svg`} />
      <h1 className="font-semibold text-md text-white mx-5">{data.title}</h1>
-   
     </div>   
    <div className="flex w-full justify-between">
-   <p className='pt-5 px-3 text-white font-semibold'><i class='bx bxs-category'></i> {data.category}</p>       
+   <p className='pt-5 px-3 text-white font-semibold'><i className='bx bxs-category'></i> {data.category}</p>       
 <div className="flex">
-<p className='pt-5 px-3 text-white font-semibold'><i class='bx bxs-like mr-2'></i>{data.likes}</p>        
- <p className='pt-5 px-3 text-white font-semibold'><i class='bx bxs-dislike mr-2' ></i>{data.disLikes}</p>        
-   
+<p className='pt-5 px-3 text-white font-semibold'><i className='bx bxs-like mr-2'></i>{data.likes.length}</p>        
+ <p className='pt-5 px-3 text-white font-semibold'><i className='bx bxs-dislike mr-2' ></i>{data.disLikes.length}</p>        
 </div>
    </div>
     </div>
