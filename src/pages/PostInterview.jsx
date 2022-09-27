@@ -1,13 +1,16 @@
-import { Formik, Form, Field} from "formik";
+
+import { Formik, Form, Field } from "formik";
 import React from "react";
 import * as yup from "yup";
-import {  useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
 import { ROOT_URL } from "../context/Actions";
 import { useAuthState } from "../context/AuthContext";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 export const PostInterview = () => {
   const { token } = useAuthState();
+  const navigate = useNavigate();
 
   const showToastMessage = (msg) => {
     
@@ -17,7 +20,13 @@ export const PostInterview = () => {
    };
 
 
+
   const validationSchema = yup.object({
+    name: yup.string().required("This Field Cannot Be Empty"),
+    college: yup.string().required("This Field Cannot Be Empty"),
+    resume: yup.string().required("This Field Cannot Be Empty"),
+    githubLink: yup.string().required("This Field Cannot Be Empty"),
+    linkedinLink: yup.string().required("This Field Cannot Be Empty"),
     company: yup.string().required("This Field Cannot Be Empty"),
     role: yup.string().required("This Field Cannot Be Empty"),
     companyLogo: yup.string().required("This Field Cannot Be Empty"),
@@ -26,10 +35,17 @@ export const PostInterview = () => {
     location: yup.string().required("This Field Cannot Be Empty"),
     ctc: yup.number().required("This Field Cannot Be Empty"),
     selected: yup.bool().required("Please Select A Value"),
+
+    platformUsed: yup.string().required("This Field Cannot Be Empty"),
+    subjectLearned: yup.string().required("This Field Cannot Be Empty"),
+    courses: yup.string().required("This Field Cannot Be Empty"),
+    aptitudePrep: yup.string().required("This Field Cannot Be Empty"),
+
     description: yup
       .string()
       .min(150, "Description Must Be Greater Than 150 Characters")
       .required("This Field Cannot Be Empty"),
+
     process: yup
       .string()
       .min(100, "Process Must Be Greater Than 100 Characters")
@@ -37,15 +53,23 @@ export const PostInterview = () => {
   });
 
   const initialValues = {
+    name: "",
+    college: "",
+    resume: "",
+    githubLink: "",
+    linkedinLink: "",
     company: "",
-    role: "",
+    role: "SDE Intern",
     companyLogo: "",
     date: "",
     onCampus: true,
     location: "",
     ctc: 0,
     selected: true,
-    description: "",
+    platformUsed: "",
+    subjectLearned: "",
+    courses: "",
+    aptitudePrep: "",
     process: "",
   };
 
@@ -90,9 +114,16 @@ export const PostInterview = () => {
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
+
+
         onSubmit={async (values , {resetForm}) => {
-        
+
           const payload = {
+            name: values.name,
+            college: values.college,
+            resume: values.resume,
+            githubLink: values.githubLink,
+            linkedinLink: values.linkedinLink,
             company: values.company,
             role: values.role,
             companyLogo: values.companyLogo,
@@ -101,8 +132,13 @@ export const PostInterview = () => {
             location: values.location,
             ctc: values.ctc,
             selected: values.selected,
-            description: values.description,
-            process: values.process,
+            description: {
+              platformUsed: values.platformUsed,
+              subjectLearned: values.subjectLearned,
+              courses: values.courses,
+              aptitudePrep: values.aptitudePrep,
+            },
+            process: values.process.split(","),
           };
           console.log(payload)
           const requestOptions = {
@@ -119,11 +155,14 @@ export const PostInterview = () => {
           const resp = await fetch(`${ROOT_URL}/user/interview`, requestOptions);
            const res = await resp.json()
           console.log(res);
-          const msg = res?.message || ""
-          console.log(res.message)
-          showToastMessage(msg)
-          resetForm({values:""})
-          
+
+          if (res.errors) {
+            alert("Invalid Credentials");
+            console.log("error");
+          } else {
+            navigate("/dashboard");
+          }
+
         }}
       >
         {({ errors, touched }) => (
@@ -132,7 +171,86 @@ export const PostInterview = () => {
               Post Interview Experience
             </p>
             <div className="w-full my-3">
+
+              <p className="text-2xl font-semibold my-2 ">Name</p>
+              <Field
+                name="name"
+                type="text"
+                className="border rounded px-3 py-3 bg-blue-50 text-lg w-full text-black "
+                as="input"
+              />
+              {errors.name && touched.name ? (
+                <div className="text-error text-center text-xl font-semibold">
+                  {errors.name}
+                </div>
+              ) : null}
+            </div>
+            <div className="w-full my-3">
+              <p className="text-2xl font-semibold my-2 ">College</p>
+              <Field
+                name="college"
+                type="text"
+                className="border rounded px-3 py-3 bg-blue-50 text-lg w-full text-black "
+                as="input"
+              />
+              {errors.college && touched.college ? (
+                <div className="text-error text-center text-xl font-semibold">
+                  {errors.college}
+                </div>
+              ) : null}
+            </div>
+            <div className="w-full my-3">
+              <p className="text-2xl font-semibold my-2 ">Link To Resume</p>
+              <Field
+                name="resume"
+                type="text"
+                className="border rounded px-3 py-3 bg-blue-50 text-lg w-full text-black "
+                as="input"
+              />
+              {errors.resume && touched.resume ? (
+                <div className="text-error text-center text-xl font-semibold">
+                  {errors.resume}
+                </div>
+              ) : null}
+            </div>
+            <div className="w-full my-3">
+              <p className="text-2xl font-semibold my-2 ">
+                Link To GitHub Profile
+              </p>
+              <Field
+                name="githubLink"
+                type="text"
+                className="border rounded px-3 py-3 bg-blue-50 text-lg w-full text-black "
+                as="input"
+              />
+              {errors.githubLink && touched.githubLink ? (
+                <div className="text-error text-center text-xl font-semibold">
+                  {errors.githubLink}
+                </div>
+              ) : null}
+            </div>
+            <div className="w-full my-3">
+              <p className="text-2xl font-semibold my-2 ">
+                Link To LinkedIn Profile
+              </p>
+              <Field
+                name="linkedinLink"
+                type="text"
+                className="border rounded px-3 py-3 bg-blue-50 text-lg w-full text-black "
+                as="input"
+              />
+              {errors.linkedinLink && touched.linkedinLink ? (
+                <div className="text-error text-center text-xl font-semibold">
+                  {errors.linkedinLink}
+                </div>
+              ) : null}
+            </div>
+
+            <div className="w-full my-3">
+              <p className="text-2xl font-semibold my-2 ">Company</p>
+
               <p className="text-xl font-semibold my-2 ">Company</p>
+
               <Field
                 name="company"
                 type="text"
@@ -151,8 +269,17 @@ export const PostInterview = () => {
                 name="role"
                 type="text"
                 className="border rounded px-3 py-3 bg-blue-50 text-lg w-full text-black "
-                as="input"
-              />
+                as="select"
+              >
+                <option value="SDE Intern">SDE Intern</option>
+                <option value="SDE-1">SDE-1</option>
+                <option value="SDE-2">SDE-2</option>
+                <option value="FrontEnd Developer">FrontEnd Developer</option>
+                <option value="BackEnd Developer">BackEnd Developer</option>
+                <option value="FullStack Developer">FullStack Developer</option>
+                <option value="DevOps Engineer">DevOps Engineer</option>
+                <option value="Other">Other</option>
+              </Field>
               {errors.role && touched.role ? (
                 <div className="text-red-500 text-center text-[16px] my-2">
                   {errors.role}
@@ -259,6 +386,84 @@ export const PostInterview = () => {
                 </div>
               ) : null}
             </div>
+
+            <div className="w-full my-3  p-5 bg-slate-200  rounded-lg flex flex-col">
+              <p className="text-2xl font-semibold my-2 mx-2  ">
+                Interview Description
+              </p>
+              <div classname="w-full">
+                <p className="text-2xl font-semibold my-3  mx-10 ">
+                  Platform Used
+                </p>
+                <Field
+                  name="platformUsed"
+                  type="text"
+                  className="border rounded px-3 py-3 bg-blue-50 text-lg w-full mx-10 text-black "
+                  as="input"
+                />
+                {errors.platformUsed && touched.platformUsed ? (
+                  <div className="text-error text-center text-xl font-semibold">
+                    {errors.platformUsed}
+                  </div>
+                ) : null}
+              </div>
+              <div classname="w-full">
+                <p className="text-2xl font-semibold my-3  mx-10 ">
+                  Subjects Required
+                </p>
+                <Field
+                  name="subjectLearned"
+                  type="text"
+                  className="border rounded px-3 py-3 bg-blue-50 text-lg w-full mx-10 text-black "
+                  as="input"
+                />
+                {errors.subjectLearned && touched.subjectLearned ? (
+                  <div className="text-error text-center text-xl font-semibold">
+                    {errors.subjectLearned}
+                  </div>
+                ) : null}
+              </div>
+              <div classname="w-full">
+                <p className="text-2xl font-semibold my-3  mx-10 ">
+                  Courses Used
+                </p>
+                <Field
+                  name="courses"
+                  type="text"
+                  className="border rounded px-3 py-3 bg-blue-50 text-lg w-full mx-10 text-black "
+                  as="input"
+                />
+                {errors.courses && touched.courses ? (
+                  <div className="text-error text-center text-xl font-semibold">
+                    {errors.courses}
+                  </div>
+                ) : null}
+              </div>
+              <div classname="w-full">
+                <p className="text-2xl font-semibold my-3  mx-10 ">
+                  Aptitude Prep
+                </p>
+                <Field
+                  name="aptitudePrep"
+                  type="text"
+                  className="border rounded px-3 py-3 bg-blue-50 text-lg w-full mx-10 text-black "
+                  as="textarea"
+                />
+                {errors.aptitudePrep && touched.aptitudePrep ? (
+                  <div className="text-error text-center text-xl font-semibold">
+                    {errors.aptitudePrep}
+                  </div>
+                ) : null}
+              </div>
+            </div>
+            <div className="w-full my-3">
+              <p className="text-2xl font-semibold my-2 ">
+                Interview Process
+                <span className="text-sm text-slate-400 ">
+                  (Enter Comma , Seperated Values)
+                </span>{" "}
+              </p>
+
             <div className="w-full my-3">
               <p className="text-xl font-semibold my-2 ">Job Description</p>
               <Field
@@ -275,6 +480,7 @@ export const PostInterview = () => {
             </div>
             <div className="w-full my-3">
               <p className="text-xl font-semibold my-2 ">Interview Process</p>
+
               <Field
                 name="process"
                 type="text"
