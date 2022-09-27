@@ -1,7 +1,7 @@
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Formik, Form, Field } from "formik";
 import React from "react";
 import * as yup from "yup";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { ROOT_URL } from "../context/Actions";
 import { useAuthState } from "../context/AuthContext";
 
@@ -10,6 +10,11 @@ export const PostInterview = () => {
   const navigate = useNavigate();
 
   const validationSchema = yup.object({
+    name: yup.string().required("This Field Cannot Be Empty"),
+    college: yup.string().required("This Field Cannot Be Empty"),
+    resume: yup.string().required("This Field Cannot Be Empty"),
+    githubLink: yup.string().required("This Field Cannot Be Empty"),
+    linkedinLink: yup.string().required("This Field Cannot Be Empty"),
     company: yup.string().required("This Field Cannot Be Empty"),
     role: yup.string().required("This Field Cannot Be Empty"),
     companyLogo: yup.string().required("This Field Cannot Be Empty"),
@@ -29,6 +34,11 @@ export const PostInterview = () => {
   });
 
   const initialValues = {
+    name: "",
+    college: "",
+    resume: "",
+    githubLink: "",
+    linkedinLink: "",
     company: "",
     role: "SDE Intern",
     companyLogo: "",
@@ -86,7 +96,13 @@ export const PostInterview = () => {
         initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={async (values) => {
+          console.log(values);
           const payload = {
+            name: values.name,
+            college: values.college,
+            resume: values.resume,
+            githubLink: values.githubLink,
+            linkedinLink: values.linkedinLink,
             company: values.company,
             role: values.role,
             companyLogo: values.companyLogo,
@@ -101,7 +117,7 @@ export const PostInterview = () => {
               courses: values.courses,
               aptitudePrep: values.aptitudePrep,
             },
-            process: values.process,
+            process: values.process.split(","),
           };
 
           const requestOptions = {
@@ -117,14 +133,12 @@ export const PostInterview = () => {
 
           const res = await fetch(`${ROOT_URL}/user/interview`, requestOptions);
           console.log(res);
-          // if(res.errors){
-          //     alert('Invalid Credentials')
-          //     console.log('error')
-          //   }else{
-
-          //       navigate('/dashboard')
-
-          //   }
+          if (res.errors) {
+            alert("Invalid Credentials");
+            console.log("error");
+          } else {
+            navigate("/dashboard");
+          }
         }}
       >
         {({ errors, touched }) => (
@@ -132,6 +146,81 @@ export const PostInterview = () => {
             <p className="text-[3rem] font-semibold my-2 mt-10 ">
               Post Interview Exprience
             </p>
+            <div className="w-full my-3">
+              <p className="text-2xl font-semibold my-2 ">Name</p>
+              <Field
+                name="name"
+                type="text"
+                className="border rounded px-3 py-3 bg-blue-50 text-lg w-full text-black "
+                as="input"
+              />
+              {errors.name && touched.name ? (
+                <div className="text-error text-center text-xl font-semibold">
+                  {errors.name}
+                </div>
+              ) : null}
+            </div>
+            <div className="w-full my-3">
+              <p className="text-2xl font-semibold my-2 ">College</p>
+              <Field
+                name="college"
+                type="text"
+                className="border rounded px-3 py-3 bg-blue-50 text-lg w-full text-black "
+                as="input"
+              />
+              {errors.college && touched.college ? (
+                <div className="text-error text-center text-xl font-semibold">
+                  {errors.college}
+                </div>
+              ) : null}
+            </div>
+            <div className="w-full my-3">
+              <p className="text-2xl font-semibold my-2 ">Link To Resume</p>
+              <Field
+                name="resume"
+                type="text"
+                className="border rounded px-3 py-3 bg-blue-50 text-lg w-full text-black "
+                as="input"
+              />
+              {errors.resume && touched.resume ? (
+                <div className="text-error text-center text-xl font-semibold">
+                  {errors.resume}
+                </div>
+              ) : null}
+            </div>
+            <div className="w-full my-3">
+              <p className="text-2xl font-semibold my-2 ">
+                Link To GitHub Profile
+              </p>
+              <Field
+                name="githubLink"
+                type="text"
+                className="border rounded px-3 py-3 bg-blue-50 text-lg w-full text-black "
+                as="input"
+              />
+              {errors.githubLink && touched.githubLink ? (
+                <div className="text-error text-center text-xl font-semibold">
+                  {errors.githubLink}
+                </div>
+              ) : null}
+            </div>
+            <div className="w-full my-3">
+              <p className="text-2xl font-semibold my-2 ">
+                Link To LinkedIn Profile
+              </p>
+              <Field
+                name="linkedinLink"
+                type="text"
+                className="border rounded px-3 py-3 bg-blue-50 text-lg w-full text-black "
+                as="input"
+              />
+              {errors.linkedinLink && touched.linkedinLink ? (
+                <div className="text-error text-center text-xl font-semibold">
+                  {errors.linkedinLink}
+                </div>
+              ) : null}
+            </div>
+
             <div className="w-full my-3">
               <p className="text-2xl font-semibold my-2 ">Company</p>
               <Field
@@ -269,11 +358,11 @@ export const PostInterview = () => {
                 </div>
               ) : null}
             </div>
-            <div className="w-full my-3  p-5 bg-slate-200  rounded-lg">
+            <div className="w-full my-3  p-5 bg-slate-200  rounded-lg flex flex-col">
               <p className="text-2xl font-semibold my-2 mx-2  ">
                 Interview Description
               </p>
-              <div>
+              <div classname="w-full">
                 <p className="text-2xl font-semibold my-3  mx-10 ">
                   Platform Used
                 </p>
@@ -288,8 +377,10 @@ export const PostInterview = () => {
                     {errors.platformUsed}
                   </div>
                 ) : null}
+              </div>
+              <div classname="w-full">
                 <p className="text-2xl font-semibold my-3  mx-10 ">
-                  Subjects Learned
+                  Subjects Required
                 </p>
                 <Field
                   name="subjectLearned"
@@ -302,6 +393,8 @@ export const PostInterview = () => {
                     {errors.subjectLearned}
                   </div>
                 ) : null}
+              </div>
+              <div classname="w-full">
                 <p className="text-2xl font-semibold my-3  mx-10 ">
                   Courses Used
                 </p>
@@ -316,6 +409,8 @@ export const PostInterview = () => {
                     {errors.courses}
                   </div>
                 ) : null}
+              </div>
+              <div classname="w-full">
                 <p className="text-2xl font-semibold my-3  mx-10 ">
                   Aptitude Prep
                 </p>
@@ -333,7 +428,12 @@ export const PostInterview = () => {
               </div>
             </div>
             <div className="w-full my-3">
-              <p className="text-2xl font-semibold my-2 ">Interview Process</p>
+              <p className="text-2xl font-semibold my-2 ">
+                Interview Process
+                <span className="text-sm text-slate-400 ">
+                  (Enter Comma , Seperated Values)
+                </span>{" "}
+              </p>
               <Field
                 name="process"
                 type="text"
