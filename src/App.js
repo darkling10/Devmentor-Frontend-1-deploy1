@@ -10,10 +10,15 @@ import CourseDetail from "./pages/CourseDetail";
 import Courses from "./pages/Courses";
 import { PostCourses } from "./pages/PostCourses";
 import { PostInterview } from "./pages/PostInterview";
+import AdminRoute from './config/AdminRoute'
+import InterviewExp from "./pages/InterviewExp";
+import InterviewContext from "./context/InterviewContext";
+import InterviewDetail from "./components/InterviewDetail";
 function App() {
   return (
     <CourseContext>
-      <Router>
+     <InterviewContext>
+     <Router>
         <Routes>
           <Route path="/" element={<Login />}/>
           <Route path="/signup" element={<SignUp />} />
@@ -29,9 +34,9 @@ function App() {
           <Route
             path="/admindashboard"
             element={
-              <AppRoute>
+              <AdminRoute>
                 <AdminDashBoard />
-              </AppRoute>
+              </AdminRoute>
             }
           />
 
@@ -44,11 +49,11 @@ function App() {
             }
           />
           <Route
-            path="/courses/post"
+            path="/postcourse"
             element={
-              <AppRoute>
+              <AdminRoute>
                 <PostCourses/>
-              </AppRoute>
+              </AdminRoute>
             }
           />
           <Route
@@ -68,8 +73,28 @@ function App() {
               </AppRoute>
             }
           />
+
+
+
+          <Route
+            path="Interview_experiences/:id"
+            element={
+              <AppRoute>
+                <InterviewDetail />
+              </AppRoute>
+            }
+          />
+          <Route
+            path="/Interview_experiences"
+            element={
+              <AppRoute>
+                <InterviewExp />
+              </AppRoute>
+            }
+          />
         </Routes>
       </Router>
+     </InterviewContext>
     </CourseContext>
   );
 }

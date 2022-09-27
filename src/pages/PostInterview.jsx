@@ -1,13 +1,25 @@
+
 import { Formik, Form, Field } from "formik";
 import React from "react";
 import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
+
 import { ROOT_URL } from "../context/Actions";
 import { useAuthState } from "../context/AuthContext";
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 export const PostInterview = () => {
   const { token } = useAuthState();
   const navigate = useNavigate();
+
+  const showToastMessage = (msg) => {
+    
+    toast.success(msg, {
+        position: toast.POSITION.BOTTOM_RIGHT
+    });
+   };
+
+
 
   const validationSchema = yup.object({
     name: yup.string().required("This Field Cannot Be Empty"),
@@ -23,10 +35,17 @@ export const PostInterview = () => {
     location: yup.string().required("This Field Cannot Be Empty"),
     ctc: yup.number().required("This Field Cannot Be Empty"),
     selected: yup.bool().required("Please Select A Value"),
+
     platformUsed: yup.string().required("This Field Cannot Be Empty"),
     subjectLearned: yup.string().required("This Field Cannot Be Empty"),
     courses: yup.string().required("This Field Cannot Be Empty"),
     aptitudePrep: yup.string().required("This Field Cannot Be Empty"),
+
+    description: yup
+      .string()
+      .min(150, "Description Must Be Greater Than 150 Characters")
+      .required("This Field Cannot Be Empty"),
+
     process: yup
       .string()
       .min(100, "Process Must Be Greater Than 100 Characters")
@@ -64,8 +83,8 @@ export const PostInterview = () => {
 
         <div className="text">
           <h1 className="text-3xl font-bold">
-            {" "}
-            Learn About New Courses and Interview Experiences{" "}
+ 
+            Learn About New Courses and Interview Experiences
           </h1>
           <p className="text-white/70 my-5">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates
@@ -95,8 +114,10 @@ export const PostInterview = () => {
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
-        onSubmit={async (values) => {
-          console.log(values);
+
+
+        onSubmit={async (values , {resetForm}) => {
+
           const payload = {
             name: values.name,
             college: values.college,
@@ -119,7 +140,7 @@ export const PostInterview = () => {
             },
             process: values.process.split(","),
           };
-
+          console.log(payload)
           const requestOptions = {
             method: "POST",
             mode: "cors",
@@ -131,22 +152,26 @@ export const PostInterview = () => {
             body: JSON.stringify(payload),
           };
 
-          const res = await fetch(`${ROOT_URL}/user/interview`, requestOptions);
+          const resp = await fetch(`${ROOT_URL}/user/interview`, requestOptions);
+           const res = await resp.json()
           console.log(res);
+
           if (res.errors) {
             alert("Invalid Credentials");
             console.log("error");
           } else {
             navigate("/dashboard");
           }
+
         }}
       >
         {({ errors, touched }) => (
           <Form className="flex flex-col justify-evenly h-full mx-20 items-center ">
-            <p className="text-[3rem] font-semibold my-2 mt-10 ">
-              Post Interview Exprience
+            <p className="text-[2rem] font-semibold my-2 mt-10 ">
+              Post Interview Experience
             </p>
             <div className="w-full my-3">
+
               <p className="text-2xl font-semibold my-2 ">Name</p>
               <Field
                 name="name"
@@ -223,6 +248,9 @@ export const PostInterview = () => {
 
             <div className="w-full my-3">
               <p className="text-2xl font-semibold my-2 ">Company</p>
+
+              <p className="text-xl font-semibold my-2 ">Company</p>
+
               <Field
                 name="company"
                 type="text"
@@ -230,13 +258,13 @@ export const PostInterview = () => {
                 as="input"
               />
               {errors.company && touched.company ? (
-                <div className="text-error text-center text-xl font-semibold">
+                <div className="text-red-500 text-center text-[16px] my-2">
                   {errors.company}
                 </div>
               ) : null}
             </div>
             <div className="w-full my-3">
-              <p className="text-2xl font-semibold my-2 ">Role</p>
+              <p className="text-xl font-semibold my-2 ">Role</p>
               <Field
                 name="role"
                 type="text"
@@ -253,13 +281,13 @@ export const PostInterview = () => {
                 <option value="Other">Other</option>
               </Field>
               {errors.role && touched.role ? (
-                <div className="text-error text-center text-xl font-semibold">
+                <div className="text-red-500 text-center text-[16px] my-2">
                   {errors.role}
                 </div>
               ) : null}
             </div>
             <div className="w-full my-3">
-              <p className="text-2xl font-semibold my-2 ">
+              <p className="text-xl font-semibold my-2 ">
                 Company Logo{" "}
                 <span className="text-sm text-slate-400 ">
                   (Enter Logo URL)
@@ -272,13 +300,13 @@ export const PostInterview = () => {
                 as="input"
               />
               {errors.companyLogo && touched.companyLogo ? (
-                <div className="text-error text-center text-xl font-semibold">
+                <div className="text-red-500 text-center text-[16px] my-2">
                   {errors.companyLogo}
                 </div>
               ) : null}
             </div>
             <div className="w-full my-3">
-              <p className="text-2xl font-semibold my-2 ">
+              <p className="text-xl font-semibold my-2 ">
                 Date{" "}
                 <span className="text-sm text-slate-400 ">
                   (Enter in DD/MM/YYYY Format)
@@ -291,13 +319,13 @@ export const PostInterview = () => {
                 as="input"
               />
               {errors.date && touched.date ? (
-                <div className="text-error text-center text-xl font-semibold">
+                <div className="text-red-500 text-center text-[16px] my-2">
                   {errors.date}
                 </div>
               ) : null}
             </div>
             <div className="w-full my-3">
-              <p className="text-2xl font-semibold my-2 ">Job Location</p>
+              <p className="text-xl font-semibold my-2 ">Job Location</p>
               <Field
                 name="onCampus"
                 type="text"
@@ -308,13 +336,13 @@ export const PostInterview = () => {
                 <option value={false}>Off Campus</option>
               </Field>
               {errors.onCampus && touched.onCampus ? (
-                <div className="text-error text-center text-xl font-semibold">
+                <div className="text-red-500 text-center text-[16px] my-2">
                   {errors.onCampus}
                 </div>
               ) : null}
             </div>
             <div className="w-full my-3">
-              <p className="text-2xl font-semibold my-2 ">Company Location</p>
+              <p className="text-xl font-semibold my-2 ">Company Location</p>
               <Field
                 name="location"
                 type="text"
@@ -322,13 +350,13 @@ export const PostInterview = () => {
                 as="input"
               />
               {errors.location && touched.location ? (
-                <div className="text-error text-center text-xl font-semibold">
+                <div className="text-red-500 text-center text-[16px] my-2">
                   {errors.location}
                 </div>
               ) : null}
             </div>
             <div className="w-full my-3">
-              <p className="text-2xl font-semibold my-2 ">CTC</p>
+              <p className="text-xl font-semibold my-2 ">CTC</p>
               <Field
                 name="ctc"
                 type="number"
@@ -336,13 +364,13 @@ export const PostInterview = () => {
                 as="input"
               />
               {errors.ctc && touched.ctc ? (
-                <div className="text-error text-center text-xl font-semibold">
+                <div className="text-red-500 text-center text-[16px] my-2">
                   {errors.ctc}
                 </div>
               ) : null}
             </div>
             <div className="w-full my-3">
-              <p className="text-2xl font-semibold my-2 ">Were you Selected?</p>
+              <p className="text-xl font-semibold my-2 ">Were you Selected?</p>
               <Field
                 name="selected"
                 type="text"
@@ -353,11 +381,12 @@ export const PostInterview = () => {
                 <option value={false}>No</option>
               </Field>
               {errors.selected && touched.selected ? (
-                <div className="text-error text-center text-xl font-semibold">
+                <div className="text-red-500 text-center text-[16px] my-2">
                   {errors.selected}
                 </div>
               ) : null}
             </div>
+
             <div className="w-full my-3  p-5 bg-slate-200  rounded-lg flex flex-col">
               <p className="text-2xl font-semibold my-2 mx-2  ">
                 Interview Description
@@ -434,6 +463,24 @@ export const PostInterview = () => {
                   (Enter Comma , Seperated Values)
                 </span>{" "}
               </p>
+
+            <div className="w-full my-3">
+              <p className="text-xl font-semibold my-2 ">Job Description</p>
+              <Field
+                name="description"
+                type="text"
+                className="border rounded px-3 py-3 bg-blue-50 text-lg w-full text-black "
+                as="textarea"
+              />
+              {errors.description && touched.description ? (
+                <div className="text-red-500 text-center text-[16px] my-2">
+                  {errors.description}
+                </div>
+              ) : null}
+            </div>
+            <div className="w-full my-3">
+              <p className="text-xl font-semibold my-2 ">Interview Process</p>
+
               <Field
                 name="process"
                 type="text"
@@ -441,20 +488,22 @@ export const PostInterview = () => {
                 as="textarea"
               />
               {errors.process && touched.process ? (
-                <div className="text-error text-center text-xl font-semibold">
+                <div className="text-red-500 text-center text-[16px] my-2">
                   {errors.process}
                 </div>
               ) : null}
             </div>
             <button
               type="submit"
-              className=" px-5 bg-blue-600 text-xl py-2 my-5 rounded-xl text-white font-semibold w-96"
+              className=" px-5 bg-blue-600 text-xl py-2 my-5 rounded-xl text-white w-full"
             >
-              Submit
+              Share Experience
             </button>
           </Form>
         )}
       </Formik>
+      <ToastContainer />
+
     </div>
   );
 };

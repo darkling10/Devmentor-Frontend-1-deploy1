@@ -6,8 +6,31 @@ import { useAuthDispatch , useAuthState} from '../context/AuthContext';
 import { SignUpUser } from '../context/Actions';
 import {useNavigate } from 'react-router-dom'
 import Loading from '../component/Loading';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 function Signup() {
   
+  const showToastMessage = (msg , error=false) => {
+    if(error){
+      return toast.error(msg, {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        });
+    }else{
+     return toast.success(msg, {
+        position: toast.POSITION.BOTTOM_RIGHT
+    });
+    }
+    
+   };
+
+
   const schema = Yup.object().shape({
     name: Yup.string()
     .required("Name is a required field"),
@@ -55,7 +78,7 @@ function Signup() {
       </div>
       <div className="col w-full min-h-screen flex justify-center items-center ">
          <div className="w-[70%] mx-auto">
-          <h1 className='font-bold text-4xl my-5 text-center'>Sign In</h1>
+          <h1 className='font-bold text-4xl my-5 text-center'> Sign Up </h1>
 
         <Formik
         validationSchema={schema}
@@ -65,7 +88,7 @@ function Signup() {
           const res = await SignUpUser(dispatch,payload)
           console.log(res)
           if(res.errors){
-            alert(res.errors[0].msg)
+            showToastMessage(res.errors[0].msg,true)
             return ;
           }else{
             navigate('/dashboard') 
@@ -149,6 +172,7 @@ function Signup() {
 
          </div>
       </div>
+      <ToastContainer />
     </div>
   )
 }
