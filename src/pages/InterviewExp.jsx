@@ -1,11 +1,18 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import InterviewCard from '../components/InterviewCard'
 import InterviewFilter from '../components/InterviewFilter'
 import { useInterviewContext } from '../context/InterviewContext'
 import {Link} from 'react-router-dom'
+import CustomLoading from '../components/CustomLoading'
 
 function InterviewExp() {
-  console.log(  useInterviewContext())
+ const data = useInterviewContext();
+  const [interviews, setinterviews] = useState(null);
+
+  useEffect(()=>{
+    setinterviews(data)
+  },[data,interviews])
+
   return (
     <div className='w-full pb-10 bg-blue-50/70 min-h-screen '>
 
@@ -23,10 +30,11 @@ function InterviewExp() {
     <InterviewFilter />
 
     <div className="grid my-5 grid-cols-3 gap-5 mx-auto w-[75%]">
-    <InterviewCard />
-    <InterviewCard />
-    <InterviewCard />
-    <InterviewCard />
+    {
+      interviews ? interviews.map((info,idx)=>{
+        return <InterviewCard key={idx} data={info} />
+      }):<CustomLoading msg={"Requesting Interviews"} />
+    }
 
     </div>
     

@@ -57,8 +57,8 @@ function FilterComponent({setCourses,setLoading}) {
          
            <Field as="select" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " name="language">
            {
-            languages.map((ele)=>{
-              return   <option value={ele}> 
+            languages.map((ele,idx)=>{
+              return   <option key={idx} value={ele}> 
                            {ele.toLocaleUpperCase()}</option>
 
             })
@@ -68,8 +68,8 @@ function FilterComponent({setCourses,setLoading}) {
 
            <Field  as="select" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " name="category">
            {
-            categories.map((ele)=>{
-              return   <option value={ele}> 
+            categories.map((ele,idx)=>{
+              return   <option key={idx} value={ele}> 
               {ele.toLocaleUpperCase()}</option>
             })
            }
