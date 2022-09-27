@@ -74,11 +74,13 @@ function App() {
             }
           />
 
+
+
           <Route
             path="Interview_experiences/:id"
             element={
               <AppRoute>
-                <CourseDetail />
+                <InterviewDetail />
               </AppRoute>
             }
           />
