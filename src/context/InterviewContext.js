@@ -25,7 +25,7 @@ function InterviewContext({children}) {
   return (
     <InterviewStateContext.Provider
     value={
-      Interviews
+      Interviews 
    }
     >
     {children}

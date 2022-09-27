@@ -11,10 +11,10 @@ const Card = ({data}) => {
    
     </div>   
    <div className="flex w-full justify-between">
-   <p className='pt-5 px-3 text-white font-semibold'><i class='bx bxs-category'></i> {data.category}</p>       
+   <p className='pt-5 px-3 text-white font-semibold'><i className='bx bxs-category'></i> {data.category}</p>       
 <div className="flex">
-<p className='pt-5 px-3 text-white font-semibold'><i class='bx bxs-like mr-2'></i>{data.likes}</p>        
- <p className='pt-5 px-3 text-white font-semibold'><i class='bx bxs-dislike mr-2' ></i>{data.disLikes}</p>        
+<p className='pt-5 px-3 text-white font-semibold'><i className='bx bxs-like mr-2'></i>{data.likes.length}</p>        
+ <p className='pt-5 px-3 text-white font-semibold'><i className='bx bxs-dislike mr-2' ></i>{data.disLikes.length}</p>        
    
 </div>
    </div>

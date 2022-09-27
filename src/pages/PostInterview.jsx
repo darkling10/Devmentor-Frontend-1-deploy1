@@ -1,30 +1,30 @@
-
 import { Formik, Form, Field } from "formik";
 import React from "react";
 import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
-
 import { ROOT_URL } from "../context/Actions";
 import { useAuthState } from "../context/AuthContext";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+
+const companies = [
+  "Microsoft",
+  "Amazon",
+  "Google",
+  "Apple",
+  "Adobe",
+  "Attlassin",
+  "Uber",
+  "American Express",
+  "Barclays",
+];
+
 export const PostInterview = () => {
   const { token } = useAuthState();
   const navigate = useNavigate();
 
-  const showToastMessage = (msg) => {
-    
-    toast.success(msg, {
-        position: toast.POSITION.BOTTOM_RIGHT
-    });
-   };
-
-
-
   const validationSchema = yup.object({
     name: yup.string().required("This Field Cannot Be Empty"),
     college: yup.string().required("This Field Cannot Be Empty"),
-    resume: yup.string().required("This Field Cannot Be Empty"),
+    resumeLink: yup.string().required("This Field Cannot Be Empty"),
     githubLink: yup.string().required("This Field Cannot Be Empty"),
     linkedinLink: yup.string().required("This Field Cannot Be Empty"),
     company: yup.string().required("This Field Cannot Be Empty"),
@@ -35,17 +35,10 @@ export const PostInterview = () => {
     location: yup.string().required("This Field Cannot Be Empty"),
     ctc: yup.number().required("This Field Cannot Be Empty"),
     selected: yup.bool().required("Please Select A Value"),
-
     platformUsed: yup.string().required("This Field Cannot Be Empty"),
     subjectLearned: yup.string().required("This Field Cannot Be Empty"),
     courses: yup.string().required("This Field Cannot Be Empty"),
     aptitudePrep: yup.string().required("This Field Cannot Be Empty"),
-
-    description: yup
-      .string()
-      .min(150, "Description Must Be Greater Than 150 Characters")
-      .required("This Field Cannot Be Empty"),
-
     process: yup
       .string()
       .min(100, "Process Must Be Greater Than 100 Characters")
@@ -55,10 +48,10 @@ export const PostInterview = () => {
   const initialValues = {
     name: "",
     college: "",
-    resume: "",
+    resumeLink: "",
     githubLink: "",
     linkedinLink: "",
-    company: "",
+    company: "Microsoft",
     role: "SDE Intern",
     companyLogo: "",
     date: "",
@@ -83,8 +76,8 @@ export const PostInterview = () => {
 
         <div className="text">
           <h1 className="text-3xl font-bold">
- 
-            Learn About New Courses and Interview Experiences
+            {" "}
+            Learn About New Courses and Interview Experiences{" "}
           </h1>
           <p className="text-white/70 my-5">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates
@@ -114,14 +107,12 @@ export const PostInterview = () => {
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
-
-
-        onSubmit={async (values , {resetForm}) => {
-
+        onSubmit={async (values) => {
+          console.log(values);
           const payload = {
             name: values.name,
             college: values.college,
-            resume: values.resume,
+            resumeLink: values.resumeLink,
             githubLink: values.githubLink,
             linkedinLink: values.linkedinLink,
             company: values.company,
@@ -134,13 +125,13 @@ export const PostInterview = () => {
             selected: values.selected,
             description: {
               platformUsed: values.platformUsed,
-              subjectLearned: values.subjectLearned,
+              subjectLearned: values.subjectLearned.split(","),
               courses: values.courses,
               aptitudePrep: values.aptitudePrep,
             },
-            process: values.process.split(","),
+            process: values.process,
           };
-          console.log(payload)
+
           const requestOptions = {
             method: "POST",
             mode: "cors",
@@ -152,123 +143,117 @@ export const PostInterview = () => {
             body: JSON.stringify(payload),
           };
 
-          const resp = await fetch(`${ROOT_URL}/user/interview`, requestOptions);
-           const res = await resp.json()
+          const res = await fetch(`${ROOT_URL}/user/interview`, requestOptions);
           console.log(res);
-
-          if (res.errors) {
-            alert("Invalid Credentials");
-            console.log("error");
-          } else {
-            navigate("/dashboard");
-          }
-
+          // if (res.errors) {
+          //   alert("Invalid Credentials");
+          //   console.log("error");
+          // } else {
+          //   navigate("/dashboard");
+          // }
         }}
       >
         {({ errors, touched }) => (
           <Form className="flex flex-col justify-evenly h-full mx-20 items-center ">
-            <p className="text-[2rem] font-semibold my-2 mt-10 ">
-              Post Interview Experience
+            <p className="text-[3rem] font-semibold my-2 mt-10 ">
+              Post Interview Exprience
             </p>
             <div className="w-full my-3">
-
-              <p className="text-2xl font-semibold my-2 ">Name</p>
+              <p className="text-[16px] font-semibold my-2 ">Name</p>
               <Field
                 name="name"
                 type="text"
-                className="border rounded px-3 py-3 bg-blue-50 text-lg w-full text-black "
+                className="border rounded px-3 py-3 bg-blue-50 text-[16px] w-full text-black "
                 as="input"
               />
               {errors.name && touched.name ? (
-                <div className="text-error text-center text-xl font-semibold">
+                <div className="text-error text-center text-[16px] font-semibold">
                   {errors.name}
                 </div>
               ) : null}
             </div>
             <div className="w-full my-3">
-              <p className="text-2xl font-semibold my-2 ">College</p>
+              <p className="text-[16px] font-semibold my-2 ">College</p>
               <Field
                 name="college"
                 type="text"
-                className="border rounded px-3 py-3 bg-blue-50 text-lg w-full text-black "
+                className="border rounded px-3 py-3 bg-blue-50 text-[16px] w-full text-black "
                 as="input"
               />
               {errors.college && touched.college ? (
-                <div className="text-error text-center text-xl font-semibold">
+                <div className="text-error text-center text-[16px] font-semibold">
                   {errors.college}
                 </div>
               ) : null}
             </div>
             <div className="w-full my-3">
-              <p className="text-2xl font-semibold my-2 ">Link To Resume</p>
+              <p className="text-[16px] font-semibold my-2 ">Link To Resume</p>
               <Field
-                name="resume"
+                name="resumeLink"
                 type="text"
-                className="border rounded px-3 py-3 bg-blue-50 text-lg w-full text-black "
+                className="border rounded px-3 py-3 bg-blue-50 text-[16px] w-full text-black "
                 as="input"
               />
-              {errors.resume && touched.resume ? (
-                <div className="text-error text-center text-xl font-semibold">
-                  {errors.resume}
+              {errors.resumeLink && touched.resumeLink ? (
+                <div className="text-error text-center text-[16px] font-semibold">
+                  {errors.resumeLink}
                 </div>
               ) : null}
             </div>
             <div className="w-full my-3">
-              <p className="text-2xl font-semibold my-2 ">
+              <p className="text-[16px] font-semibold my-2 ">
                 Link To GitHub Profile
               </p>
               <Field
                 name="githubLink"
                 type="text"
-                className="border rounded px-3 py-3 bg-blue-50 text-lg w-full text-black "
+                className="border rounded px-3 py-3 bg-blue-50 text-[16px] w-full text-black "
                 as="input"
               />
               {errors.githubLink && touched.githubLink ? (
-                <div className="text-error text-center text-xl font-semibold">
+                <div className="text-error text-center text-[16px] font-semibold">
                   {errors.githubLink}
                 </div>
               ) : null}
             </div>
             <div className="w-full my-3">
-              <p className="text-2xl font-semibold my-2 ">
+              <p className="text-[16px] font-semibold my-2 ">
                 Link To LinkedIn Profile
               </p>
               <Field
                 name="linkedinLink"
                 type="text"
-                className="border rounded px-3 py-3 bg-blue-50 text-lg w-full text-black "
+                className="border rounded px-3 py-3 bg-blue-50 text-[16px] w-full text-black "
                 as="input"
               />
               {errors.linkedinLink && touched.linkedinLink ? (
-                <div className="text-error text-center text-xl font-semibold">
+                <div className="text-error text-center text-[16px] font-semibold">
                   {errors.linkedinLink}
                 </div>
               ) : null}
             </div>
 
             <div className="w-full my-3">
-              <p className="text-2xl font-semibold my-2 ">Company</p>
-
-              <p className="text-xl font-semibold my-2 ">Company</p>
-
+              <p className="text-[16px] font-semibold my-2 ">Company</p>
               <Field
                 name="company"
                 type="text"
-                className="border rounded px-3 py-3 bg-blue-50 text-lg w-full text-black "
-                as="input"
-              />
+                className="border rounded px-3 py-3 bg-blue-50 text-[16px] w-full text-black "
+                as="select"
+              >
+              {companies.map((company)=>(<option value={company}>{company}</option>))}</Field>
               {errors.company && touched.company ? (
-                <div className="text-red-500 text-center text-[16px] my-2">
+                <div className="text-error text-center text-[16px] font-semibold">
                   {errors.company}
                 </div>
               ) : null}
             </div>
             <div className="w-full my-3">
-              <p className="text-xl font-semibold my-2 ">Role</p>
+              <p className="text-[16px] font-semibold my-2 ">Role</p>
               <Field
                 name="role"
                 type="text"
-                className="border rounded px-3 py-3 bg-blue-50 text-lg w-full text-black "
+                className="border rounded px-3 py-3 bg-blue-50 text-[16px] w-full text-black "
                 as="select"
               >
                 <option value="SDE Intern">SDE Intern</option>
@@ -281,13 +266,13 @@ export const PostInterview = () => {
                 <option value="Other">Other</option>
               </Field>
               {errors.role && touched.role ? (
-                <div className="text-red-500 text-center text-[16px] my-2">
+                <div className="text-error text-center text-[16px] font-semibold">
                   {errors.role}
                 </div>
               ) : null}
             </div>
             <div className="w-full my-3">
-              <p className="text-xl font-semibold my-2 ">
+              <p className="text-[16px] font-semibold my-2 ">
                 Company Logo{" "}
                 <span className="text-sm text-slate-400 ">
                   (Enter Logo URL)
@@ -296,17 +281,17 @@ export const PostInterview = () => {
               <Field
                 name="companyLogo"
                 type="text"
-                className="border rounded px-3 py-3 bg-blue-50 text-lg w-full text-black "
+                className="border rounded px-3 py-3 bg-blue-50 text-[16px] w-full text-black "
                 as="input"
               />
               {errors.companyLogo && touched.companyLogo ? (
-                <div className="text-red-500 text-center text-[16px] my-2">
+                <div className="text-error text-center text-[16px] font-semibold">
                   {errors.companyLogo}
                 </div>
               ) : null}
             </div>
             <div className="w-full my-3">
-              <p className="text-xl font-semibold my-2 ">
+              <p className="text-[16px] font-semibold my-2 ">
                 Date{" "}
                 <span className="text-sm text-slate-400 ">
                   (Enter in DD/MM/YYYY Format)
@@ -315,195 +300,172 @@ export const PostInterview = () => {
               <Field
                 name="date"
                 type="text"
-                className="border rounded px-3 py-3 bg-blue-50 text-lg w-full text-black "
+                className="border rounded px-3 py-3 bg-blue-50 text-[16px] w-full text-black "
                 as="input"
               />
               {errors.date && touched.date ? (
-                <div className="text-red-500 text-center text-[16px] my-2">
+                <div className="text-error text-center text-[16px] font-semibold">
                   {errors.date}
                 </div>
               ) : null}
             </div>
             <div className="w-full my-3">
-              <p className="text-xl font-semibold my-2 ">Job Location</p>
+              <p className="text-[16px] font-semibold my-2 ">Job Location</p>
               <Field
                 name="onCampus"
                 type="text"
-                className=" appearance-none border rounded px-3 py-3 bg-blue-50 text-lg w-full text-black "
+                className=" appearance-none border rounded px-3 py-3 bg-blue-50 text-[16px] w-full text-black "
                 as="select"
               >
                 <option value={true}>On Campus</option>
                 <option value={false}>Off Campus</option>
               </Field>
               {errors.onCampus && touched.onCampus ? (
-                <div className="text-red-500 text-center text-[16px] my-2">
+                <div className="text-error text-center text-[16px] font-semibold">
                   {errors.onCampus}
                 </div>
               ) : null}
             </div>
             <div className="w-full my-3">
-              <p className="text-xl font-semibold my-2 ">Company Location</p>
+              <p className="text-[16px] font-semibold my-2 ">Company Location</p>
               <Field
                 name="location"
                 type="text"
-                className="border rounded px-3 py-3 bg-blue-50 text-lg w-full text-black "
+                className="border rounded px-3 py-3 bg-blue-50 text-[16px] w-full text-black "
                 as="input"
               />
               {errors.location && touched.location ? (
-                <div className="text-red-500 text-center text-[16px] my-2">
+                <div className="text-error text-center text-[16px] font-semibold">
                   {errors.location}
                 </div>
               ) : null}
             </div>
             <div className="w-full my-3">
-              <p className="text-xl font-semibold my-2 ">CTC</p>
+              <p className="text-[16px] font-semibold my-2 ">CTC</p>
               <Field
                 name="ctc"
                 type="number"
-                className="appearance-none border rounded px-3 py-3 bg-blue-50 text-lg w-full text-black "
+                className="appearance-none border rounded px-3 py-3 bg-blue-50 text-[16px] w-full text-black "
                 as="input"
               />
               {errors.ctc && touched.ctc ? (
-                <div className="text-red-500 text-center text-[16px] my-2">
+                <div className="text-error text-center text-[16px] font-semibold">
                   {errors.ctc}
                 </div>
               ) : null}
             </div>
             <div className="w-full my-3">
-              <p className="text-xl font-semibold my-2 ">Were you Selected?</p>
+              <p className="text-[16px] font-semibold my-2 ">Were you Selected?</p>
               <Field
                 name="selected"
                 type="text"
-                className=" appearance-none border rounded px-3 py-3 bg-blue-50 text-lg w-full text-black "
+                className=" appearance-none border rounded px-3 py-3 bg-blue-50 text-[16px] w-full text-black "
                 as="select"
               >
                 <option value={true}>Yes</option>
                 <option value={false}>No</option>
               </Field>
               {errors.selected && touched.selected ? (
-                <div className="text-red-500 text-center text-[16px] my-2">
+                <div className="text-error text-center text-[16px] font-semibold">
                   {errors.selected}
                 </div>
               ) : null}
             </div>
-
             <div className="w-full my-3  p-5 bg-slate-200  rounded-lg flex flex-col">
-              <p className="text-2xl font-semibold my-2 mx-2  ">
+              <p className="text-[16px] font-semibold my-2 mx-2  ">
                 Interview Description
               </p>
               <div classname="w-full">
-                <p className="text-2xl font-semibold my-3  mx-10 ">
+                <p className="text-[16px] font-semibold my-3  ">
                   Platform Used
                 </p>
                 <Field
                   name="platformUsed"
                   type="text"
-                  className="border rounded px-3 py-3 bg-blue-50 text-lg w-full mx-10 text-black "
+                  className="border rounded px-3 py-3 bg-blue-50 text-[16px] w-full text-black "
                   as="input"
                 />
                 {errors.platformUsed && touched.platformUsed ? (
-                  <div className="text-error text-center text-xl font-semibold">
+                  <div className="text-error text-center text-[16px] font-semibold">
                     {errors.platformUsed}
                   </div>
                 ) : null}
               </div>
               <div classname="w-full">
-                <p className="text-2xl font-semibold my-3  mx-10 ">
+                <p className="text-[16px] font-semibold my-3  ">
                   Subjects Required
+                  <span className="text-sm text-slate-400 ">
+                    (Enter Comma , Seperated Values)
+                  </span>
                 </p>
                 <Field
                   name="subjectLearned"
                   type="text"
-                  className="border rounded px-3 py-3 bg-blue-50 text-lg w-full mx-10 text-black "
+                  className="border rounded px-3 py-3 bg-blue-50 text-[16px] w-full text-black "
                   as="input"
                 />
                 {errors.subjectLearned && touched.subjectLearned ? (
-                  <div className="text-error text-center text-xl font-semibold">
+                  <div className="text-error text-center text-[16px] font-semibold">
                     {errors.subjectLearned}
                   </div>
                 ) : null}
               </div>
               <div classname="w-full">
-                <p className="text-2xl font-semibold my-3  mx-10 ">
+                <p className="text-[16px] font-semibold my-3  ">
                   Courses Used
                 </p>
                 <Field
                   name="courses"
                   type="text"
-                  className="border rounded px-3 py-3 bg-blue-50 text-lg w-full mx-10 text-black "
+                  className="border rounded px-3 py-3 bg-blue-50 text-[16px] w-full text-black "
                   as="input"
                 />
                 {errors.courses && touched.courses ? (
-                  <div className="text-error text-center text-xl font-semibold">
+                  <div className="text-error text-center text-[16px] font-semibold">
                     {errors.courses}
                   </div>
                 ) : null}
               </div>
               <div classname="w-full">
-                <p className="text-2xl font-semibold my-3  mx-10 ">
+                <p className="text-[16px] font-semibold my-3  ">
                   Aptitude Prep
                 </p>
                 <Field
                   name="aptitudePrep"
                   type="text"
-                  className="border rounded px-3 py-3 bg-blue-50 text-lg w-full mx-10 text-black "
+                  className="border rounded px-3 py-3 bg-blue-50 text-[16px] w-full text-black "
                   as="textarea"
                 />
                 {errors.aptitudePrep && touched.aptitudePrep ? (
-                  <div className="text-error text-center text-xl font-semibold">
+                  <div className="text-error text-center text-[16px] font-semibold">
                     {errors.aptitudePrep}
                   </div>
                 ) : null}
               </div>
             </div>
             <div className="w-full my-3">
-              <p className="text-2xl font-semibold my-2 ">
-                Interview Process
-                <span className="text-sm text-slate-400 ">
-                  (Enter Comma , Seperated Values)
-                </span>{" "}
-              </p>
-
-            <div className="w-full my-3">
-              <p className="text-xl font-semibold my-2 ">Job Description</p>
-              <Field
-                name="description"
-                type="text"
-                className="border rounded px-3 py-3 bg-blue-50 text-lg w-full text-black "
-                as="textarea"
-              />
-              {errors.description && touched.description ? (
-                <div className="text-red-500 text-center text-[16px] my-2">
-                  {errors.description}
-                </div>
-              ) : null}
-            </div>
-            <div className="w-full my-3">
-              <p className="text-xl font-semibold my-2 ">Interview Process</p>
-
+              <p className="text-[16px] font-semibold my-2 ">Interview Process</p>
               <Field
                 name="process"
                 type="text"
-                className="border rounded px-3 py-3 bg-blue-50 text-lg w-full text-black "
+                className="border rounded px-3 py-3 bg-blue-50 text-[16px] w-full text-black "
                 as="textarea"
               />
               {errors.process && touched.process ? (
-                <div className="text-red-500 text-center text-[16px] my-2">
+                <div className="text-error text-center text-[16px] font-semibold">
                   {errors.process}
                 </div>
               ) : null}
             </div>
             <button
               type="submit"
-              className=" px-5 bg-blue-600 text-xl py-2 my-5 rounded-xl text-white w-full"
+              className=" px-5 bg-blue-600 text-[16px] py-2 my-5 rounded-xl text-white font-semibold w-96"
             >
-              Share Experience
+              Submit
             </button>
           </Form>
         )}
       </Formik>
-      <ToastContainer />
-
     </div>
   );
 };

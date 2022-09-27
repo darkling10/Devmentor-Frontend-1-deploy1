@@ -17,8 +17,8 @@ function InterviewCard({data}) {
            </div>
          </div>
         <div className="flex justify-between items-center my-2.5">
-            <h1 className="ctc font-semibold text-white"><i class='bx bx-money pr-2' ></i> {data?.ctc} LPA</h1>
-            <h1 className="ctc font-semibold text-white"><i class='bx bxs-user-badge pr-2'></i>{data?.onCampus?"On Campus":"Off Campus"}</h1>
+            <h1 className="ctc font-semibold text-white"><i className='bx bx-money pr-2' ></i> {data?.ctc} LPA</h1>
+            <h1 className="ctc font-semibold text-white"><i className='bx bxs-user-badge pr-2'></i>{data?.onCampus?"On Campus":"Off Campus"}</h1>
         </div>
         
 
