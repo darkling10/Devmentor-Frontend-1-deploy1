@@ -1,4 +1,4 @@
-export const ROOT_URL = 'https://dev-mentor1.herokuapp.com';
+export const ROOT_URL = 'https://dev-mentor-backend.vercel.app';
 
 export async function SignUpUser(dispatch , loginPayload){
   const requestOptions = {
